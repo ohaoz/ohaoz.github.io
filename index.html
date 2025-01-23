@@ -4,6 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ZYH的个人知识库</title>
+    <meta name="description" content="ZYH的个人技术博客，分享编程知识和技术见解">
+    <meta name="keywords" content="技术博客,编程,全栈开发,算法,前端,后端">
+    <meta name="author" content="ZYH">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="ZYH的个人知识库">
+    <meta property="og:description" content="分享编程知识，记录技术成长">
+    <meta property="og:type" content="website">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="animation.css">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
@@ -45,15 +52,15 @@
 
     <!-- 将原有内容包裹在content-wrapper中 -->
     <div class="content-wrapper">
-        <nav class="navbar">
+        <nav class="navbar" role="navigation" aria-label="主导航">
             <div class="nav-content">
-                <div class="logo">
-                    <i class="fas fa-code logo-icon"></i>
+                <div class="logo" role="banner">
+                    <i class="fas fa-code logo-icon" aria-hidden="true"></i>
                     <h1>Tech Blog</h1>
                 </div>
-                <div class="search-box">
-                    <input type="text" placeholder="搜索文章...">
-                    <button><i class="fas fa-search"></i></button>
+                <div class="search-box" role="search">
+                    <input type="text" placeholder="搜索文章..." aria-label="搜索文章">
+                    <button aria-label="搜索"><i class="fas fa-search" aria-hidden="true"></i></button>
                 </div>
                 <ul class="nav-links">
                     <li><a href="#home" class="active"><i class="fas fa-home"></i> 首页</a></li>
@@ -194,7 +201,13 @@
             </div>
         </footer>
     </div>
+    <!-- 阅读进度条 -->
+    <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
 
+    <!-- 主题切换按钮 -->
+    <button class="theme-toggle" aria-label="切换主题模式">
+        <i class="fas fa-moon"></i>
+    </button>
     <script src="main.js"></script>
     <script>
         // 配置Live2D看板娘

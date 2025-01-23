@@ -1,15 +1,59 @@
 :root {
-    --primary-color: #FF69B4; /* 粉色主题 */
-    --secondary-color: #7B68EE; /* 梦幻紫色 */
-    --accent-color: #00BFFF; /* 明亮的天蓝色 */
-    --background-color: #FFF0F5; /* 淡粉色背景 */
-    --text-color: #4B0082; /* 深紫色文字 */
+    /* 亮色主题 */
+    --primary-color: #FF69B4;
+    --secondary-color: #7B68EE;
+    --accent-color: #00BFFF;
+    --background-color: #FFF0F5;
+    --text-color: #4B0082;
     --card-shadow: 0 4px 6px rgba(123, 104, 238, 0.2);
-    --transition: all 0.3s ease;
-    
-    /* 新增渐变色 */
     --gradient-primary: linear-gradient(135deg, #FF69B4 0%, #7B68EE 100%);
     --gradient-secondary: linear-gradient(45deg, #00BFFF 0%, #FF69B4 100%);
+}
+
+/* 暗黑模式变量 */
+[data-theme="dark"] {
+    --primary-color: #FF1493;
+    --secondary-color: #9370DB;
+    --accent-color: #00CED1;
+    --background-color: #1a1a1a;
+    --text-color: #E6E6FA;
+    --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    --gradient-primary: linear-gradient(135deg, #FF1493 0%, #9370DB 100%);
+    --gradient-secondary: linear-gradient(45deg, #00CED1 0%, #FF1493 100%);
+}
+
+/* 主题切换按钮 */
+.theme-toggle {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    background: var(--gradient-primary);
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    box-shadow: var(--card-shadow);
+    transition: transform 0.3s ease;
+}
+
+.theme-toggle:hover {
+    transform: scale(1.1);
+}
+
+/* 阅读进度条 */
+.progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: var(--gradient-primary);
+    transform-origin: 0 50%;
+    transform: scaleX(0);
+    transition: transform 0.1s ease;
+    z-index: 1001;
 }
 
 * {

@@ -368,63 +368,91 @@ section h2 {
 }
 
 /* 分类卡片样式 */
+.categories {
+    margin: 4rem 0;
+    padding: 2rem 0;
+    position: relative;
+    transform: none;
+    background: none;
+    overflow: visible;
+}
+
 .category-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1.5rem;
+    gap: 2rem;
+    position: relative;
+    background: none;
+    transform: none;
 }
 
 .category-card {
-    background: rgba(255, 255, 255, 0.9);
+    background: var(--background-color);
     padding: 2rem;
-    border: 2px solid transparent;
     border-radius: 12px;
     box-shadow: var(--card-shadow);
     text-align: center;
-    transition: var(--transition);
     position: relative;
-    overflow: hidden;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid transparent;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transform: none;
+    overflow: visible;
+    z-index: 1;
+}
+
+.category-card::before,
+.category-card::after {
+    display: none;
 }
 
 .category-card:hover {
     border-color: var(--secondary-color);
-    transform: translateY(-5px) rotate(2deg);
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    z-index: 2;
 }
 
 .category-card i {
-    font-size: 2rem;
+    font-size: 2.5rem;
     color: var(--secondary-color);
     margin-bottom: 1rem;
-    animation: bounce 2s ease infinite;
-}
-
-@keyframes bounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
 }
 
 .category-card h3 {
-    margin-bottom: 0.5rem;
-    color: var(--primary-color);
+    color: var(--text-color);
+    margin: 0.5rem 0;
+    font-size: 1.2rem;
 }
 
 .category-card span {
-    color: #666;
+    color: var(--text-color);
+    opacity: 0.8;
     font-size: 0.9rem;
 }
 
 .category-progress {
-    margin-top: 1rem;
-    background: #eee;
+    width: 100%;
     height: 4px;
+    background: rgba(0,0,0,0.1);
     border-radius: 2px;
+    margin-top: 1rem;
     overflow: hidden;
+    position: relative;
 }
 
-.progress-bar {
+.category-progress-bar {
     height: 100%;
     background: var(--secondary-color);
     border-radius: 2px;
+    transition: width 0.3s ease;
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
 /* Newsletter 区域 */

@@ -22,6 +22,35 @@
     --gradient-secondary: linear-gradient(45deg, #00CED1 0%, #FF1493 100%);
 }
 
+/* 基础样式设置 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Noto Sans SC', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    overflow-x: hidden;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.content-wrapper {
+    flex: 1;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    position: relative;
+    z-index: 1;
+    display: none; /* 初始隐藏内容 */
+}
+
 /* 主题切换按钮 */
 .theme-toggle {
     position: fixed;
@@ -54,20 +83,6 @@
     transform: scaleX(0);
     transition: transform 0.1s ease;
     z-index: 1001;
-}
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: 'Noto Sans SC', sans-serif;
-    line-height: 1.6;
-    color: var(--text-color);
-    background-color: var(--background-color);
-    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="%23FF69B4"><path d="M12 2L8 6h3v14h2V6h3L12 2z"/></svg>') 12 12, auto;
 }
 
 /* 导航栏样式 */

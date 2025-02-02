@@ -13,11 +13,8 @@
     <meta property="og:type" content="website">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="animation.css">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=ZCOOL+XiaoWei&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <!-- 添加QRCode.js库 -->
-    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
-    <!-- 主要脚本 -->
     <script src="script.js" defer></script>
 </head>
 <body>
@@ -28,7 +25,7 @@
             <h1 class="error-title">你的电脑遇到问题，需要重新启动。</h1>
             <p class="error-text">
                 我们正在收集一些错误信息，然后为您重新启动。<br>
-                完成进度：<span class="progress">0</span>
+                完成进度：<span class="progress">0</span>%
             </p>
             <div class="progress-container">
                 <span class="progress-text">正在收集信息</span>
@@ -44,164 +41,97 @@
                 错误代码：UNEXPECTED_KNOWLEDGE_OVERFLOW<br>
                 发生了什么？ZYH的知识库包含了过多的知识，导致系统过载。
             </div>
-            <div class="qr-code" id="qrcode"></div>
+            <div class="panda-meme">
+                <img src="83f176ac40af7d599e5e77374216ab59.jpg" alt="金馆长熊猫头" class="panda-gif">
+            </div>
         </div>
     </div>
 
-    <!-- 将原有内容包裹在content-wrapper中 -->
-    <div class="content-wrapper">
-        <div class="nav-container">
-            <nav class="navbar" role="navigation" aria-label="主导航">
-                <div class="nav-content">
-                    <div class="logo" role="banner">
-                        <i class="fas fa-code logo-icon" aria-hidden="true"></i>
-                        <h1>Tech Blog</h1>
-                    </div>
-                    <div class="search-box" role="search">
-                        <input type="text" placeholder="搜索文章..." aria-label="搜索文章">
-                        <button aria-label="搜索"><i class="fas fa-search" aria-hidden="true"></i></button>
-                    </div>
-                    <ul class="nav-links">
-                        <li><a href="#home" class="active"><i class="fas fa-home"></i> 首页</a></li>
-                        <li><a href="#articles"><i class="fas fa-book"></i> 文章</a></li>
-                        <li><a href="#projects"><i class="fas fa-project-diagram"></i> 项目</a></li>
-                        <li><a href="#about"><i class="fas fa-user"></i> 关于我</a></li>
-                    </ul>
-                </div>
-            </nav>
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="logo">
+                <a href="/">Tech Blog</a>
+            </div>
+            <div class="nav-links">
+                <a href="/"><i class="fas fa-home"></i> 首页</a>
+                <a href="/articles"><i class="fas fa-book"></i> 文章</a>
+                <a href="/projects"><i class="fas fa-project-diagram"></i> 项目</a>
+                <a href="/about"><i class="fas fa-user"></i> 关于我</a>
+            </div>
         </div>
+    </nav>
 
-        <header class="hero">
-            <div class="hero-content">
-                <h1>探索技术的无限可能</h1>
-                <p>分享编程知识，记录技术成长</p>
-                <div class="cta-buttons">
-                    <a href="#featured" class="cta-primary">浏览精选文章</a>
-                    <a href="#newsletter" class="cta-secondary">订阅更新</a>
-                </div>
-            </div>
-            <div class="hero-overlay"></div>
-            <div class="hero-pattern"></div>
-        </header>
+    <div class="main-content">
+        <nav class="category-nav">
+            <a href="/category/frontend"><i class="fas fa-code"></i> 前端开发</a>
+            <a href="/category/backend"><i class="fas fa-server"></i> 后端开发</a>
+            <a href="/category/algorithm"><i class="fas fa-brain"></i> 算法</a>
+            <a href="/category/system"><i class="fas fa-network-wired"></i> 系统设计</a>
+            <a href="/category/ai"><i class="fas fa-robot"></i> 人工智能</a>
+            <a href="/category/tools"><i class="fas fa-tools"></i> 开发工具</a>
+        </nav>
 
-        <main>
-            <section id="featured" class="featured-posts">
-                <h2>精选文章</h2>
-                <div class="post-grid">
-                    <article class="post-card">
-                        <div class="post-image" style="background-image: url('https://source.unsplash.com/random/800x600?programming')">
-                            <span class="post-category">算法</span>
-                        </div>
-                        <div class="post-content">
-                            <h3>深入理解算法复杂度</h3>
-                            <p>探讨时间复杂度和空间复杂度的概念，以及它们在实际编程中的应用...</p>
-                            <div class="post-meta">
-                                <span><i class="far fa-clock"></i> 2025-01-18</span>
-                                <span><i class="far fa-eye"></i> 1.2k 阅读</span>
-                                <span><i class="far fa-comment"></i> 8 评论</span>
-                            </div>
-                            <a href="#" class="read-more">阅读全文 <i class="fas fa-arrow-right"></i></a>
-                        </div>
-                    </article>
-                    <article class="post-card">
-                        <div class="post-image" style="background-image: url('https://source.unsplash.com/random/800x600?javascript')">
-                            <span class="post-category">前端</span>
-                        </div>
-                        <div class="post-content">
-                            <h3>现代前端框架对比</h3>
-                            <p>深入分析React、Vue和Angular的优势与使用场景...</p>
-                            <div class="post-meta">
-                                <span><i class="far fa-clock"></i> 2025-01-18</span>
-                                <span><i class="far fa-eye"></i> 2.3k 阅读</span>
-                                <span><i class="far fa-comment"></i> 12 评论</span>
-                            </div>
-                            <a href="#" class="read-more">阅读全文 <i class="fas fa-arrow-right"></i></a>
-                        </div>
-                    </article>
+        <div class="article-list">
+            <article class="article-card">
+                <h2>深入理解算法复杂度</h2>
+                <p>探讨时间复杂度和空间复杂度的概念，以及它们在实际编程中的应用。本文将通过实例深入分析不同算法的性能特点...</p>
+                <div class="article-meta">
+                    <span><i class="far fa-clock"></i> 2025-01-18</span>
+                    <span><i class="far fa-comment"></i> 8 评论</span>
                 </div>
-            </section>
+            </article>
 
-            <section id="categories" class="categories">
-                <h2>文章分类</h2>
-                <div class="category-grid">
-                    <div class="category-card">
-                        <i class="fas fa-code"></i>
-                        <h3>算法</h3>
-                        <span>12 篇文章</span>
-                        <div class="category-progress">
-                            <div class="category-progress-bar" style="width: 75%"></div>
-                        </div>
-                    </div>
-                    <div class="category-card">
-                        <i class="fas fa-server"></i>
-                        <h3>系统设计</h3>
-                        <span>8 篇文章</span>
-                        <div class="category-progress">
-                            <div class="category-progress-bar" style="width: 60%"></div>
-                        </div>
-                    </div>
-                    <div class="category-card">
-                        <i class="fas fa-laptop-code"></i>
-                        <h3>前端开发</h3>
-                        <span>15 篇文章</span>
-                        <div class="category-progress">
-                            <div class="category-progress-bar" style="width: 90%"></div>
-                        </div>
-                    </div>
-                    <div class="category-card">
-                        <i class="fas fa-database"></i>
-                        <h3>后端开发</h3>
-                        <span>10 篇文章</span>
-                        <div class="category-progress">
-                            <div class="category-progress-bar" style="width: 70%"></div>
-                        </div>
-                    </div>
+            <article class="article-card">
+                <h2>现代前端框架架构对比</h2>
+                <p>深入分析React、Vue和Angular的优势与使用场景，帮助开发者选择最适合的前端框架...</p>
+                <div class="article-meta">
+                    <span><i class="far fa-clock"></i> 2025-01-18</span>
+                    <span><i class="far fa-comment"></i> 12 评论</span>
                 </div>
-            </section>
+            </article>
 
-            <section id="newsletter" class="newsletter">
-                <div class="newsletter-content">
-                    <h2>订阅更新</h2>
-                    <p>订阅我的技术周刊，获取最新的技术动态和学习资源</p>
-                    <form class="newsletter-form">
-                        <input type="email" placeholder="输入您的邮箱地址">
-                        <button type="submit">订阅 <i class="fas fa-paper-plane"></i></button>
-                    </form>
+            <article class="article-card">
+                <h2>AI 驱动的代码生成</h2>
+                <p>探索人工智能如何改变传统的编程方式，以及AI代码助手对开发效率的提升...</p>
+                <div class="article-meta">
+                    <span><i class="far fa-clock"></i> 2025-01-17</span>
+                    <span><i class="far fa-comment"></i> 15 评论</span>
                 </div>
-            </section>
-        </main>
-
-        <footer>
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3>关于博主</h3>
-                    <p>热爱技术，专注于全栈开发的程序员</p>
-                    <div class="social-links">
-                        <a href="#"><i class="fab fa-github"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-linkedin"></i></a>
-                    </div>
-                </div>
-                <div class="footer-section">
-                    <h3>快速链接</h3>
-                    <ul>
-                        <li><a href="#home">首页</a></li>
-                        <li><a href="#articles">所有文章</a></li>
-                        <li><a href="#projects">项目展示</a></li>
-                        <li><a href="#about">关于我</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h3>联系方式</h3>
-                    <p><i class="fas fa-envelope"></i> your.email@example.com</p>
-                    <p><i class="fab fa-github"></i> @yourusername</p>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 Tech Blog. All rights reserved.</p>
-            </div>
-        </footer>
+            </article>
+        </div>
     </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>关于博主</h3>
+                <p>热爱技术，专注于全栈开发的程序员</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-github"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>快速链接</h3>
+                <ul>
+                    <li><a href="/">首页</a></li>
+                    <li><a href="/articles">所有文章</a></li>
+                    <li><a href="/projects">项目展示</a></li>
+                    <li><a href="/about">关于我</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>联系方式</h3>
+                <p><i class="fas fa-envelope"></i> your.email@example.com</p>
+                <p><i class="fab fa-github"></i> @yourusername</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Tech Blog. All rights reserved.</p>
+        </div>
+    </footer>
+
     <!-- 阅读进度条 -->
     <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
 
@@ -209,16 +139,5 @@
     <button class="theme-toggle" aria-label="切换主题模式">
         <i class="fas fa-moon"></i>
     </button>
-    <script>
-        // 生成二维码
-        new QRCode(document.getElementById("qrcode"), {
-            text: "https://www.google.com",
-            width: 150,
-            height: 150,
-            colorDark : "#000000",
-            colorLight : "#ffffff",
-            correctLevel : QRCode.CorrectLevel.H
-        });
-    </script>
 </body>
 </html>

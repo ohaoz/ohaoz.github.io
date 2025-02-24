@@ -1,17 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=ZCOOL+XiaoWei&display=swap');
 
 :root {
-    /* 二次元可爱风格配色 */
-    --primary-color: #FF69B4;
-    --secondary-color: #FFB7C5;
-    --accent-color: #87CEEB;
-    --background-color: #FFF0F5;
-    --text-color: #4B0082;
-    --card-shadow: 0 4px 15px rgba(255, 105, 180, 0.15);
-    --gradient-primary: linear-gradient(135deg, #FFB6C1 0%, #FFC0CB 100%);
-    --gradient-secondary: linear-gradient(45deg, #E6E6FA 0%, #FFB7C5 100%);
-    --nav-bg: rgba(255, 255, 255, 0.85);
-    --card-bg: rgba(255, 255, 255, 0.9);
+    /* Modern minimalist color scheme */
+    --primary-color: #007bff;
+    --secondary-color: #6c757d;
+    --accent-color: #17a2b8;
+    --background-color: #f8f9fa;
+    --text-color: #343a40;
+    --card-shadow: 0 4px 15px rgba(0, 123, 255, 0.15);
+    --gradient-primary: linear-gradient(135deg, #6dd5ed 0%, #2193b0 100%);
+    --gradient-secondary: linear-gradient(45deg, #ffffff 0%, #f8f9fa 100%);
+    --nav-bg: rgba(255, 255, 255, 0.95);
+    --card-bg: #ffffff;
+    --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", sans-serif;
 }
 
 /* 暗色主题 */
@@ -35,10 +36,8 @@
 }
 
 body {
-    font-family: 'Noto Sans SC', 'ZCOOL XiaoWei', sans-serif;
     background: var(--background-color);
-    background-image: 
-        url("data:image/svg+xml,%3Csvg width='52' height='26' viewBox='0 0 52 26' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ff69b4' fill-opacity='0.1'%3E%3Cpath d='M10 10c0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6h2c0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4v2c-3.314 0-6-2.686-6-6 0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6zm25.464-1.95l8.486 8.486-1.414 1.414-8.486-8.486 1.414-1.414z' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    font-family: 'Noto Sans SC', 'ZCOOL XiaoWei', sans-serif;
     color: var(--text-color);
     line-height: 1.6;
     overflow-x: hidden;
@@ -51,8 +50,8 @@ body {
 .navbar {
     background: var(--nav-bg);
     backdrop-filter: blur(10px);
-    border-bottom: 2px solid rgba(255, 105, 180, 0.1);
-    box-shadow: 0 2px 10px rgba(255, 105, 180, 0.1);
+    border-bottom: 2px solid rgba(0, 123, 255, 0.1);
+    box-shadow: 0 2px 10px rgba(0, 123, 255, 0.1);
     position: fixed;
     width: 100%;
     top: 0;
@@ -376,4 +375,71 @@ footer {
 
 ::-webkit-scrollbar-thumb:hover {
     background: var(--secondary-color);
+}
+
+/* 添加图标加载失败的备选样式 */
+.theme-toggle i.fas.fa-moon::before {
+    content: "🌙";
+    font-family: system-ui;
+}
+
+.theme-toggle i.fas.fa-sun::before {
+    content: "☀️";
+    font-family: system-ui;
+}
+
+/* 更新主题切换按钮样式 */
+.theme-toggle {
+    background: var(--card-bg);
+    border: 2px solid var(--primary-color);
+    border-radius: 25px;
+    padding: 8px 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-color);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.theme-toggle:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(255, 20, 147, 0.2);
+    background: var(--gradient-primary);
+    color: white;
+    border-color: transparent;
+}
+
+.theme-toggle i {
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+}
+
+.theme-toggle span {
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+/* 暗色模式特殊样式 */
+[data-theme="dark"] .theme-toggle {
+    border-color: var(--accent-color);
+    background: var(--card-bg);
+}
+
+[data-theme="dark"] .theme-toggle:hover {
+    background: var(--gradient-primary);
+    border-color: transparent;
+}
+
+/* 添加动画效果 */
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.theme-toggle:active i {
+    animation: rotate 0.5s ease;
 }

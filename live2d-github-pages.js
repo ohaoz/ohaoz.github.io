@@ -130,14 +130,105 @@
         
         const tools = waifuTool.querySelectorAll("span");
         
-        // 设置关闭按钮
-        const closeBtn = tools[tools.length - 1];
-        if (closeBtn) {
-            closeBtn.addEventListener("click", function() {
-                document.getElementById("waifu").style.display = "none";
-            });
-        }
+        // 工具按钮功能定义
+        const toolActions = {
+            // 一言
+            0: function() {
+                fetch("https://v1.hitokoto.cn")
+                    .then(response => response.json())
+                    .then(result => {
+                        const text = `${result.hitokoto}`;
+                        showMessage(text, 6000, 9);
+                    });
+            },
+            // 切换模型
+            2: function() {
+                loadOtherModel();
+                showMessage("我的新衣服好看吗？", 4000, 10);
+            },
+            // 切换贴图
+            3: function() {
+                loadRandModel();
+                showMessage("我的新衣服好看吗？", 4000, 10);
+            },
+            // 拍照
+            4: function() {
+                showMessage("照好了嘛，是不是很可爱呢？", 6000, 9);
+                if (window.Live2D && window.Live2D.captureName) {
+                    window.Live2D.captureName = "photo.png";
+                    window.Live2D.captureFrame = true;
+                }
+            },
+            // 信息
+            5: function() {
+                open("https://github.com/stevenjoezhang/live2d-widget");
+            },
+            // 关闭
+            6: function() {
+                localStorage.setItem("waifu-display", Date.now());
+                showMessage("愿你有一天能与重要的人重逢。", 2000, 11);
+                document.getElementById("waifu").style.bottom = "-500px";
+                setTimeout(() => {
+                    document.getElementById("waifu").style.display = "none";
+                    document.getElementById("waifu-toggle").classList.add("waifu-toggle-active");
+                }, 3000);
+            }
+        };
+        
+        // 为每个工具按钮添加点击事件
+        tools.forEach((tool, index) => {
+            if (toolActions[index]) {
+                tool.addEventListener("click", toolActions[index]);
+            }
+        });
     }
+    
+    // 显示消息函数
+    function showMessage(text, timeout, priority) {
+        if (!text || (sessionStorage.getItem("waifu-text") && sessionStorage.getItem("waifu-text") > priority)) return;
+        
+        if (messageTimer) {
+            clearTimeout(messageTimer);
+            messageTimer = null;
+        }
+        
+        if (Array.isArray(text)) text = text[Math.floor(Math.random() * text.length)];
+        
+        sessionStorage.setItem("waifu-text", priority);
+        const tips = document.getElementById("waifu-tips");
+        tips.innerHTML = text;
+        tips.classList.add("waifu-tips-active");
+        
+        messageTimer = setTimeout(() => {
+            sessionStorage.removeItem("waifu-text");
+            tips.classList.remove("waifu-tips-active");
+        }, timeout);
+    }
+    
+    // 加载其他模型
+    function loadOtherModel() {
+        const modelId = localStorage.getItem("modelId");
+        const modelNumber = Number(modelId || 1);
+        const newModelId = modelNumber + 1 > 5 ? 1 : modelNumber + 1; // 假设有5个模型
+        
+        loadlive2d("live2d", `${basePath}live2d_models/model-${newModelId}/index.json`);
+        localStorage.setItem("modelId", newModelId);
+        showMessage("我的新衣服好看吗？", 4000, 10);
+    }
+    
+    // 加载随机贴图
+    function loadRandModel() {
+        const modelId = localStorage.getItem("modelId") || 1;
+        const modelTexturesId = localStorage.getItem("modelTexturesId") || 1;
+        const newTextureId = Number(modelTexturesId) + 1 > 3 ? 1 : Number(modelTexturesId) + 1; // 假设每个模型有3个贴图
+        
+        loadlive2d("live2d", `${basePath}live2d_models/model-${modelId}/textures-${newTextureId}.json`);
+        localStorage.setItem("modelTexturesId", newTextureId);
+        showMessage("我的新衣服好看吗？", 4000, 10);
+    }
+    
+    // 消息计时器
+    let messageTimer;
     
     // 主函数
     function main() {

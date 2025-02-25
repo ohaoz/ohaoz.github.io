@@ -9,9 +9,10 @@
 
     // Configuration
     const config = {
-        ipApiUrl: 'https://ip-api.com/json/?fields=status,message,country,city,lat,lon', // 添加fields参数，减少不必要的数据传输
+        ipApiUrl: 'https://api.ipify.org?format=json', // 使用安全的HTTPS API获取IP
+        ipGeoUrl: 'https://api.ipgeolocation.io/ipgeo?apiKey=d5952a7f1e584097b2925d02acbd91b2', // 免费的IP地理位置API
         weatherApiUrl: 'https://api.open-meteo.com/v1/forecast', // Free weather API
-        weatherParams: 'current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m&daily=weather_code_max&timezone=auto',
+        weatherParams: 'current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m&daily=weather_code&timezone=auto',
         containerSelector: '.weather-widget-container',
         refreshInterval: 30 * 60 * 1000, // 30 minutes in milliseconds
         defaultLocation: { // 添加默认位置，当无法获取地理位置时使用
@@ -59,20 +60,24 @@
      */
     async function fetchLocation() {
         try {
-            console.log('Fetching location from:', config.ipApiUrl);
-            const response = await fetch(config.ipApiUrl);
-            const data = await response.json();
-            console.log('Location API response:', data);
+            // 简化地理位置获取过程，直接使用免费API
+            const geoUrl = 'https://ipapi.co/json/';
+            console.log('Fetching location from:', geoUrl);
             
-            if (data.status === 'success') {
+            const geoResponse = await fetch(geoUrl);
+            const geoData = await geoResponse.json();
+            
+            console.log('Location API response:', geoData);
+            
+            if (geoResponse.ok && geoData.latitude && geoData.longitude) {
                 return {
-                    latitude: data.lat,
-                    longitude: data.lon,
-                    city: data.city || '未知城市',
-                    country: data.country || '未知国家'
+                    latitude: geoData.latitude,
+                    longitude: geoData.longitude,
+                    city: geoData.city || '未知城市',
+                    country: geoData.country_name || geoData.country || '未知国家'
                 };
             } else {
-                console.warn('Location API returned error:', data.message || 'Unknown error');
+                console.warn('Geolocation API error:', geoData);
                 return config.defaultLocation;
             }
         } catch (error) {
@@ -89,6 +94,11 @@
             const url = `${config.weatherApiUrl}?latitude=${latitude}&longitude=${longitude}&${config.weatherParams}`;
             console.log('Fetching weather from:', url);
             const response = await fetch(url);
+            
+            if (!response.ok) {
+                throw new Error(`Weather API HTTP error: ${response.status}`);
+            }
+            
             const data = await response.json();
             console.log('Weather API response:', data);
             
@@ -143,10 +153,10 @@
                 </div>
                 <div class="weather-footer">
                     <div class="weather-detail">
-                        <i class="fas fa-tint"></i> 湿度: ${humidity}%
+                        <i class="fas fa-tint"></i> ${humidity}%
                     </div>
                     <div class="weather-detail">
-                        <i class="fas fa-wind"></i> 风速: ${windSpeed} km/h
+                        <i class="fas fa-wind"></i> ${windSpeed} km/h
                     </div>
                 </div>
             </div>
@@ -156,6 +166,8 @@
         
         // 缓存天气小部件的HTML内容
         localStorage.setItem('weatherWidgetHTML', widgetHTML);
+        // 更新最后更新时间戳
+        localStorage.setItem('weatherLastUpdate', Date.now().toString());
         
         // Add event listener for refresh button
         const refreshBtn = weatherContainer.querySelector('.refresh-btn');
@@ -210,6 +222,9 @@
             
             // Fetch location data
             const location = await fetchLocation();
+            if (!location) {
+                throw new Error('无法获取位置信息');
+            }
             
             // Fetch weather data
             const weather = await fetchWeather(location.latitude, location.longitude);
@@ -249,6 +264,9 @@
             return;
         }
         
+        // 初始化天气切换按钮功能
+        initToggleButton();
+        
         // Load weather data if needed
         if (shouldRefreshWeather()) {
             initWeatherWidget();
@@ -267,6 +285,35 @@
                 initWeatherWidget();
             }
         }
+    }
+    
+    /**
+     * 初始化天气小部件的显示/隐藏功能
+     */
+    function initToggleButton() {
+        const toggleBtn = document.querySelector('.weather-toggle-btn');
+        const weatherContainer = document.querySelector(config.containerSelector);
+        
+        if (!toggleBtn || !weatherContainer) return;
+        
+        // 检查本地存储中的显示状态
+        const isHidden = localStorage.getItem('weatherWidgetHidden') === 'true';
+        
+        // 初始状态
+        if (isHidden) {
+            weatherContainer.classList.add('hidden');
+            toggleBtn.classList.add('hidden');
+        }
+        
+        // 点击切换按钮时的行为
+        toggleBtn.addEventListener('click', () => {
+            weatherContainer.classList.toggle('hidden');
+            toggleBtn.classList.toggle('hidden');
+            
+            // 保存状态到本地存储
+            const isCurrentlyHidden = weatherContainer.classList.contains('hidden');
+            localStorage.setItem('weatherWidgetHidden', isCurrentlyHidden.toString());
+        });
     }
 
     // Initialize when DOM is ready

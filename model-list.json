@@ -1,0 +1,14 @@
+{
+  "models": [
+    ["shizuku"],
+    ["koharu"],
+    ["haruto"],
+    ["miku"]
+  ],
+  "messages": [
+    "来自 Cubism 2.1 SDK 的 Shizuku 模型",
+    "来自 Cubism 2.1 SDK 的 Koharu 模型",
+    "来自 Cubism 2.1 SDK 的 Haruto 模型",
+    "来自 Cubism 2.1 SDK 的 Miku 模型"
+  ]
+} 

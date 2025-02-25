@@ -461,76 +461,8 @@
 
     // 初始化Live2D相关配置和页面切换效果
     function initializeLive2D() {
-        // 检查是否已经加载了看板娘相关脚本
-        if (window.loadLive2D) {
-            // 延迟加载Live2D，避免影响页面加载速度
-            setTimeout(() => {
-                // 在移动设备上延迟更长时间加载看板娘，优先加载页面内容
-                const loadDelay = document.body.classList.contains('is-mobile') ? 2000 : 1000;
-                
-                setTimeout(() => {
-                    window.loadLive2D();
-                    
-                    // 添加模型切换功能
-                    const waifuToolBar = document.querySelector('#waifu-tool');
-                    if (waifuToolBar) {
-                        // 添加切换模型按钮
-                        const changeModelBtn = document.createElement('span');
-                        changeModelBtn.className = 'fa-solid fa-random';
-                        changeModelBtn.title = '切换模型';
-                        
-                        changeModelBtn.addEventListener('click', () => {
-                            if (window.live2d_config && window.live2d_config.model && window.live2d_config.model.alternativeModels) {
-                                const models = window.live2d_config.model.alternativeModels;
-                                const randomModel = models[Math.floor(Math.random() * models.length)];
-                                
-                                loadlive2d('live2d', randomModel);
-                                
-                                // 显示提示消息
-                                if (window.showMessage) {
-                                    window.showMessage('模型已切换！喜欢我的新装扮吗？', 4000);
-                                }
-                            }
-                        });
-                        
-                        // 插入到工具栏的第三个位置
-                        if (waifuToolBar.children.length >= 3) {
-                            waifuToolBar.insertBefore(changeModelBtn, waifuToolBar.children[2]);
-                        } else {
-                            waifuToolBar.appendChild(changeModelBtn);
-                        }
-                    }
-                }, loadDelay);
-            }, 0);
-        }
-
-        // 添加页面切换动画
-        if (!document.querySelector('.page-transition')) {
-            const pageTransition = document.createElement('div');
-            pageTransition.className = 'page-transition';
-            document.body.appendChild(pageTransition);
-        }
-
-        document.querySelectorAll('a:not([href^="#"])').forEach(link => {
-            link.addEventListener('click', function(e) {
-                const href = this.getAttribute('href');
-                if (href && !href.startsWith('javascript:') && !href.startsWith('mailto:')) {
-                    e.preventDefault();
-                    const pageTransition = document.querySelector('.page-transition');
-                    pageTransition.classList.add('active');
-                    setTimeout(() => {
-                        window.location.href = href;
-                    }, 600);
-                }
-            });
-        });
-
-        // 添加滚动提示（如果存在.hero元素）
-        if (document.querySelector('.hero') && !document.querySelector('.scroll-indicator')) {
-            const scrollIndicator = document.createElement('div');
-            scrollIndicator.className = 'scroll-indicator';
-            document.querySelector('.hero').appendChild(scrollIndicator);
-        }
+        // 不再需要初始化Live2D，由autoload.js处理
+        console.log("Live2D initialization is now handled by autoload.js");
     }
 
     // 合并所有初始化操作于DOMContentLoaded事件

@@ -50,3 +50,62 @@ const live2d_config = {
         }
     }
 };
+
+// live2d-widget配置
+window.live2d_settings = {
+    // 基本设置
+    "modelAPI": "https://live2d.fghrsh.net/api/",  // 默认API
+    "tipsMessage": "waifu-tips.json",              // 同目录下的提示语言文件
+    "hitokotoAPI": "lwl12.com",                    // 一言API，可选 'lwl12.com', 'hitokoto.cn', 'jinrishici.com'(古诗词)
+    
+    // 模型设置
+    "modelId": 1,                                  // 默认模型ID，可在API中查看可用的模型列表
+    "modelTexturesId": 53,                         // 默认材质ID
+    
+    // 工具栏设置
+    "showToolMenu": true,                          // 显示工具栏
+    "canSwitchModel": true,                        // 显示模型切换按钮
+    "canSwitchTextures": true,                     // 显示材质切换按钮
+    "canSwitchHitokoto": true,                     // 显示一言切换按钮
+    "canTakeScreenshot": true,                     // 显示看板娘截图按钮
+    "canTurnToHomePage": true,                     // 显示返回首页按钮
+    "canTurnToAboutPage": true,                    // 显示跳转关于页按钮
+    
+    // 样式设置
+    "waifuSize": "280x250",                        // 看板娘大小，例如 '280x250', '600x535'
+    "waifuTipsSize": "250x70",                     // 提示框大小，例如 '250x70', '570x150'
+    "waifuFontSize": "12px",                       // 提示框字体，例如 '12px', '30px'
+    "waifuToolFont": "14px",                       // 工具栏字体，例如 '14px', '36px'
+    "waifuToolLine": "20px",                       // 工具栏行高，例如 '20px', '36px'
+    "waifuToolTop": "0px",                         // 工具栏顶部边距，例如 '0px', '-60px'
+    "waifuMinWidth": "768px",                      // 面页小于 指定宽度 隐藏看板娘，例如 'disable'(禁用), '768px'
+    
+    // 其他设置
+    "homePageUrl": "/",                            // 主页地址，可选 'auto'(自动), '/'(首页), '/URL'(绝对地址), 'URL'(相对地址)
+    "aboutPageUrl": "/about/",                     // 关于页地址，可选 'auto'(自动), '/about/'(关于页), '/URL'(绝对地址), 'URL'(相对地址)
+    "screenshotCaptureName": "live2d.png",         // 看板娘截图文件名，例如 'live2d.png'
+    
+    // 开关设置
+    "showHitokoto": true,                          // 显示一言
+    "showF12Status": true,                         // 显示加载状态
+    "showF12Message": false,                       // 显示看板娘消息
+    "showF12OpenMsg": true,                        // 显示控制台打开提示
+    "showCopyMessage": true,                       // 显示 复制内容 提示
+    "showWelcomeMessage": true,                    // 显示进入面页欢迎词
+    
+    // 消息设置
+    "copyMessage": "你都复制了些什么呀，转载请注明出处哦~",
+    "welcomeMessage": "欢迎来到 %t ！"
+};
+
+// 检查是否已经加载了live2d-widget
+if (typeof(initWidget) === 'function') {
+    console.log('Live2D widget is ready to initialize');
+    initWidget({
+        waifuPath: window.live2d_settings.tipsMessage,
+        apiPath: window.live2d_settings.modelAPI,
+        cdnPath: window.live2d_settings.modelAPI
+    });
+} else {
+    console.error('Live2D widget initialization function not found');
+}

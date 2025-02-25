@@ -14,7 +14,17 @@
     <meta name="theme-color" content="#FF6B9A">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="animation.css">
-    <link rel="stylesheet" href="waifu.css">
+    <style>
+        #live2d-widget {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            width: 300px;
+            height: 400px;
+            z-index: 999;
+            pointer-events: none;
+        }
+    </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script src="script.js" defer></script>
 </head>
@@ -22,23 +32,11 @@
     <!-- 可爱的预加载动画会在JS中动态创建 -->
     <div class="preloader"></div>
 
-    <!-- 看板娘切换按钮 -->
-    <button id="waifu-toggle" class="visible">
-        <i class="fas fa-user"></i>
-    </button>
+    <!-- 新的Live2D实现 -->
+    <div id="live2d-widget"></div>
+    <script src="live2d-config.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/stevenjoezhang/live2d-widget@latest/autoload.js"></script>
     
-    <!-- 看板娘容器 -->
-    <div id="waifu" class="hidden">
-        <div id="waifu-tips"></div>
-        <canvas id="live2d" width="280" height="250"></canvas>
-        <div id="waifu-tool">
-            <span class="fa-solid fa-comment-dots"></span>
-            <span class="fa-solid fa-camera"></span>
-            <span class="fa-solid fa-info-circle"></span>
-            <span class="fa-solid fa-xmark"></span>
-        </div>
-    </div>
-
     <nav class="navbar">
         <div class="nav-content">
             <div class="logo">
@@ -200,20 +198,5 @@
             <p>&copy; 2025 ZYH的二次元知识库 | 用❤️制作</p>
         </div>
     </footer>
-
-    <!-- 看板娘相关脚本 -->
-    <script src="live2d-config.js"></script>
-    <script src="live2d.min.js"></script>
-    <script src="waifu.js"></script>
-    <script>
-        // 初始化看板娘
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                if (window.loadLive2D) {
-                    window.loadLive2D();
-                }
-            }, 1000); // 等待页面完全加载后再初始化看板娘
-        });
-    </script>
 </body>
 </html>

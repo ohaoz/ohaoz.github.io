@@ -1,26 +1,34 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=ZCOOL+XiaoWei&family=Poppins:wght@300;400;600&display=swap');
 
 :root {
-    /* 二次元风格配色方案 */
+    /* 二次元风格升级配色方案 */
     --primary-color: #FF6B9A; /* 粉色系 */
     --primary-dark: #E84B8A;
     --primary-light: #FFA4C3;
     --secondary-color: #6B9AFF; /* 蓝色系 */
     --accent-color: #9D6BFF; /* 紫色系 */
+    --accent-mint: #83E8C0; /* 新增辅助色：薄荷绿 */
+    --accent-sky: #87CEFA; /* 新增辅助色：天蓝色 */
     --background-color: #FFEEF5; /* 浅粉背景 */
+    --background-gradient: linear-gradient(135deg, #FFEEF5 0%, #FFF5FA 100%); /* 新增渐变背景 */
     --text-color: #4A4A6A;
     --text-light: #7A7A9A;
     --card-bg: #FFFFFF;
-    --card-shadow: 0 10px 15px -3px rgba(255, 107, 154, 0.1), 0 4px 6px -2px rgba(255, 107, 154, 0.05);
+    --card-shadow: 0 8px 20px rgba(255, 105, 180, 0.1), 0 4px 8px rgba(255, 107, 154, 0.05);
     --gradient-primary: linear-gradient(135deg, #FF6B9A 0%, #E84B8A 100%);
     --gradient-secondary: linear-gradient(135deg, #6B9AFF 0%, #4B7AE8 100%);
-    --nav-bg: rgba(255, 255, 255, 0.95);
+    --nav-bg: rgba(255, 255, 255, 0.8); /* 更改为半透明效果 */
+    --nav-blur: blur(10px); /* 毛玻璃效果模糊度 */
     --transition-slow: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-    --border-radius-sm: 0.375rem;
-    --border-radius-md: 0.75rem;
-    --border-radius-lg: 1.25rem;
+    --border-radius-sm: 0.75rem; /* 增大圆角 */
+    --border-radius-md: 1rem;
+    --border-radius-lg: 1.5rem;
     --font-sans: 'Poppins', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-display: 'ZCOOL XiaoWei', 'Poppins', serif; /* 特色字体用于标题 */
+    --spacing-sm: 0.75rem;
+    --spacing-md: 1.5rem;
+    --spacing-lg: 2.5rem;
 }
 
 /* 暗色主题 - 二次元风格 */
@@ -30,12 +38,15 @@
     --primary-light: #FFBDD6;
     --secondary-color: #8EB4FF;
     --accent-color: #BD8EFF;
+    --accent-mint: #6BCBA8; /* 暗色模式薄荷绿 */
+    --accent-sky: #5AAADC; /* 暗色模式天蓝色 */
     --background-color: #2A2A40;
+    --background-gradient: linear-gradient(135deg, #2A2A40 0%, #353555 100%); /* 暗色渐变背景 */
     --text-color: #F9FAFB;
     --text-light: #E5E7EB;
-    --card-bg: #3A3A50;
-    --card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
-    --nav-bg: rgba(42, 42, 64, 0.95);
+    --card-bg: rgba(58, 58, 80, 0.8); /* 半透明卡片背景 */
+    --card-shadow: 0 10px 20px rgba(0, 0, 0, 0.3), 0 4px 8px rgba(0, 0, 0, 0.2);
+    --nav-bg: rgba(42, 42, 64, 0.75); /* 更改为半透明效果 */
     --gradient-primary: linear-gradient(135deg, #FF8EB4 0%, #FF6B9A 100%);
     --gradient-secondary: linear-gradient(135deg, #8EB4FF 0%, #6B9AFF 100%);
 }
@@ -47,11 +58,12 @@
 }
 
 body {
-    background: var(--background-color);
-    font-family: var(--font-sans);
+    background: var(--background-gradient); /* 使用渐变背景 */
     color: var(--text-color);
-    line-height: 1.7;
+    font-family: var(--font-sans);
     overflow-x: hidden;
+    line-height: 1.7; /* 增加行高 */
+    letter-spacing: 0.01em; /* 轻微增加字间距 */
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -60,15 +72,18 @@ body {
 
 /* 导航栏样式 */
 .navbar {
-    background: var(--nav-bg);
-    backdrop-filter: blur(16px);
-    border-bottom: 2px solid rgba(255, 107, 154, 0.2);
-    box-shadow: 0 4px 10px rgba(255, 107, 154, 0.1);
-    position: fixed;
-    width: 100%;
+    position: sticky;
     top: 0;
-    z-index: 1000;
+    left: 0;
+    width: 100%;
+    background: var(--nav-bg);
+    backdrop-filter: var(--nav-blur); /* 毛玻璃效果 */
+    -webkit-backdrop-filter: var(--nav-blur);
+    z-index: 100;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     transition: all var(--transition-slow);
+    padding: 0.75rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .nav-content {
@@ -245,23 +260,22 @@ body {
 
 .article-card {
     background: var(--card-bg);
-    border-radius: var(--border-radius-lg);
+    border-radius: var(--border-radius-md);
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
     box-shadow: var(--card-shadow);
-    transition: all var(--transition-slow);
-    border: 2px solid rgba(255, 107, 154, 0.2);
     position: relative;
     overflow: hidden;
+    transition: all var(--transition-slow);
+    border: 1px solid rgba(255, 255, 255, 0.15);
     display: flex;
     flex-direction: column;
     height: 100%;
-    transform-style: preserve-3d;
-    perspective: 1000px;
 }
 
 .article-card:hover {
-    transform: translateY(-5px) scale(1.02);
-    box-shadow: 0 20px 25px -5px rgba(255, 107, 154, 0.2), 0 10px 10px -5px rgba(255, 107, 154, 0.1);
-    border-color: rgba(255, 107, 154, 0.5);
+    transform: translateY(-5px) scale(1.02); /* 增强悬停效果 */
+    box-shadow: 0 15px 30px rgba(255, 105, 180, 0.15), 0 8px 15px rgba(255, 107, 154, 0.1);
 }
 
 .article-card::before {
@@ -500,19 +514,19 @@ footer::before {
 }
 
 ::-webkit-scrollbar-track {
-    background: rgba(99, 102, 241, 0.05);
-    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: var(--primary-light);
-    border-radius: 5px;
+    background: linear-gradient(to bottom, var(--primary-light), var(--primary-color));
+    border-radius: 10px;
     border: 2px solid transparent;
     background-clip: content-box;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: var(--primary-color);
+    background: linear-gradient(to bottom, var(--primary-color), var(--primary-dark));
     border: 2px solid transparent;
     background-clip: content-box;
 }
@@ -532,6 +546,9 @@ html {
     padding: 1px;
     background: var(--gradient-primary);
     -webkit-mask: 
+        linear-gradient(#fff 0 0) content-box, 
+        linear-gradient(#fff 0 0);
+    mask: 
         linear-gradient(#fff 0 0) content-box, 
         linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;

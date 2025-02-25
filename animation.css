@@ -341,8 +341,19 @@
 }
 
 /* 文章卡片悬停动画 */
+.article-card {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+                box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.article-card:hover {
+    transform: translateY(-8px) scale(1.03);
+}
+
 .article-card:hover img {
-    transform: scale(1.05);
+    transform: scale(1.08);
+    filter: brightness(1.05);
 }
 
 /* 添加导航链接动画 */
@@ -395,111 +406,410 @@
     width: 100%;
     height: 100%;
     pointer-events: none;
-    z-index: 1;
+    z-index: -1;
     overflow: hidden;
 }
 
 .sakura {
     position: absolute;
-    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="%23FFC0CB"><path d="M12 2C7.58 2 4 5.58 4 10c0 2.03.76 3.87 2 5.28V16c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2v-.72c1.24-1.41 2-3.25 2-5.28 0-4.42-3.58-8-8-8zm-4 12.28c-.6.35-1.1.78-1.5 1.27-.4-.49-.9-.92-1.5-1.27.6-.35 1.1-.78 1.5-1.27.4.49.9.92 1.5 1.27zm4 0c-.6.35-1.1.78-1.5 1.27-.4-.49-.9-.92-1.5-1.27.6-.35 1.1-.78 1.5-1.27.4.49.9.92 1.5 1.27zm4 0c-.6.35-1.1.78-1.5 1.27-.4-.49-.9-.92-1.5-1.27.6-.35 1.1-.78 1.5-1.27.4.49.9.92 1.5 1.27z"/></svg>') no-repeat;
-    width: 24px;
-    height: 24px;
-    filter: drop-shadow(0 0 2px rgba(255, 192, 203, 0.5));
+    top: -10%;
+    background-color: var(--primary-light);
+    border-radius: 12px 1px;
+    opacity: 0.7;
     animation: sakura-fall linear infinite, sakura-shake ease-in-out infinite alternate;
 }
 
 @keyframes sakura-fall {
     0% {
         top: -10%;
-        opacity: 1;
     }
     100% {
         top: 100%;
-        opacity: 0.3;
     }
 }
 
 @keyframes sakura-shake {
-    0% {
+    0%, 100% {
         transform: translateX(0) rotate(0deg);
     }
     50% {
-        transform: translateX(25px) rotate(45deg);
-    }
-    100% {
-        transform: translateX(-25px) rotate(-45deg);
+        transform: translateX(15px) rotate(5deg);
     }
 }
 
-/* 可爱的加载动画 */
-.kawaii-loader {
-    width: 80px;
-    height: 80px;
-    position: relative;
-    margin: 0 auto;
+/* 初始化樱花位置和尺寸 */
+.sakura:nth-child(1) {
+    left: 10%;
+    width: 10px;
+    height: 10px;
+    animation-duration: 10s, 3s;
+    animation-delay: 0s, 0s;
 }
 
-.kawaii-face {
-    width: 60px;
-    height: 60px;
-    background: #FFC0CB;
-    border-radius: 50%;
-    position: relative;
-    margin: 0 auto;
-    animation: bounce 1.5s infinite alternate;
-    box-shadow: 0 5px 15px rgba(255, 107, 154, 0.3);
+.sakura:nth-child(2) {
+    left: 30%;
+    width: 12px;
+    height: 12px;
+    animation-duration: 12s, 4s;
+    animation-delay: 1s, 0.5s;
 }
 
-.kawaii-eye {
-    position: absolute;
+.sakura:nth-child(3) {
+    left: 50%;
     width: 8px;
     height: 8px;
-    background: #4A4A6A;
-    border-radius: 50%;
-    top: 20px;
+    animation-duration: 8s, 3.5s;
+    animation-delay: 2s, 1s;
 }
 
-.kawaii-eye.left {
-    left: 18px;
+.sakura:nth-child(4) {
+    left: 70%;
+    width: 14px;
+    height: 14px;
+    animation-duration: 11s, 4.5s;
+    animation-delay: 1.5s, 0.2s;
 }
 
-.kawaii-eye.right {
-    right: 18px;
+.sakura:nth-child(5) {
+    left: 85%;
+    width: 11px;
+    height: 11px;
+    animation-duration: 9s, 3.2s;
+    animation-delay: 2.5s, 1.5s;
 }
 
-.kawaii-mouth {
+/* 文字打字机效果 */
+.typewriter {
+    overflow: hidden;
+    border-right: 3px solid var(--primary-color);
+    white-space: nowrap;
+    margin: 0 auto;
+    animation: 
+        typing 3.5s steps(40, end),
+        blink-caret 0.75s step-end infinite;
+}
+
+@keyframes typing {
+    from { width: 0 }
+    to { width: 100% }
+}
+
+@keyframes blink-caret {
+    from, to { border-color: transparent }
+    50% { border-color: var(--primary-color) }
+}
+
+/* CSS 滚动指示器 */
+.scroll-indicator-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.2);
+    z-index: 1000;
+}
+
+.scroll-indicator-bar {
+    height: 100%;
+    background: var(--gradient-primary);
+    width: 0%;
+    transition: width 0.1s ease-out;
+}
+
+/* 自定义滚动条 */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(to bottom, var(--primary-light), var(--primary-color));
+    border-radius: 10px;
+    border: 2px solid transparent;
+    background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(to bottom, var(--primary-color), var(--primary-dark));
+    border: 2px solid transparent;
+    background-clip: content-box;
+}
+
+/* 移动端优化 */
+@media (max-width: 768px) {
+    .sakura-container {
+        opacity: 0.5; /* 降低动画复杂度 */
+    }
+    
+    .floating-bubbles {
+        display: none; /* 禁用复杂动画 */
+    }
+    
+    .hero h1::after {
+        animation-duration: 5s; /* 降低动画频率 */
+    }
+}
+
+/* 添加AOS风格的内容滚动显示效果 */
+.fade-in-up {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.fade-in-up.appear {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* 增强卡片图片悬停效果 */
+.article-card-image {
+    overflow: hidden;
+    position: relative;
+}
+
+.article-card-image::after {
+    content: '';
     position: absolute;
-    width: 16px;
-    height: 8px;
-    background: #4A4A6A;
-    border-radius: 0 0 10px 10px;
-    bottom: 15px;
-    left: 50%;
-    transform: translateX(-50%);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to top, rgba(255, 107, 154, 0.2), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
 }
 
-.kawaii-blush {
+.article-card:hover .article-card-image::after {
+    opacity: 1;
+}
+
+/* 添加按钮点击反馈 */
+button, .nav-links a, .category-nav a {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-ripple {
     position: absolute;
-    width: 12px;
-    height: 6px;
-    background: rgba(255, 107, 154, 0.5);
     border-radius: 50%;
-    top: 25px;
+    background-color: rgba(255, 255, 255, 0.7);
+    width: 100px;
+    height: 100px;
+    margin-top: -50px;
+    margin-left: -50px;
+    animation: ripple-effect 1s;
+    opacity: 0;
 }
 
-.kawaii-blush.left {
-    left: 10px;
-}
-
-.kawaii-blush.right {
-    right: 10px;
-}
-
-@keyframes bounce {
+@keyframes ripple-effect {
     0% {
-        transform: translateY(0);
+        transform: scale(0);
+        opacity: 0.5;
     }
     100% {
-        transform: translateY(-15px);
+        transform: scale(2.5);
+        opacity: 0;
     }
 }
+
+/* 导航链接互动效果 */
+.nav-links a i {
+    transition: transform 0.3s ease;
+}
+
+.nav-links a:hover i {
+    transform: scale(1.2) translateY(-2px);
+    color: var(--primary-color);
+}
+
+/* 添加玻璃态霜冻效果 */
+.frost-effect {
+    position: relative;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
+}
+
+/* 页面切换动画 */
+.page-transition-enter {
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.page-transition-enter-active {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.page-transition-exit {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.page-transition-exit-active {
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+/* 二次元风格的浮动气泡动画 */
+.floating-bubbles {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: -2;
+    pointer-events: none;
+    opacity: 0.6;
+}
+
+.bubble {
+    position: absolute;
+    bottom: -50px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    opacity: 0.5;
+    animation: float-up 15s infinite ease-in-out;
+}
+
+.bubble:nth-child(1) {
+    left: 10%;
+    width: 15px;
+    height: 15px;
+    background-color: var(--primary-light);
+    animation-duration: 12s;
+}
+
+.bubble:nth-child(2) {
+    left: 30%;
+    width: 25px;
+    height: 25px;
+    background-color: var(--secondary-color);
+    animation-duration: 18s;
+    animation-delay: 2s;
+}
+
+.bubble:nth-child(3) {
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    background-color: var(--accent-color);
+    animation-duration: 15s;
+    animation-delay: 5s;
+}
+
+.bubble:nth-child(4) {
+    left: 70%;
+    width: 30px;
+    height: 30px;
+    background-color: var(--accent-mint);
+    animation-duration: 20s;
+    animation-delay: 1s;
+}
+
+.bubble:nth-child(5) {
+    left: 85%;
+    width: 18px;
+    height: 18px;
+    background-color: var(--accent-sky);
+    animation-duration: 16s;
+    animation-delay: 7s;
+}
+
+@keyframes float-up {
+    0% {
+        transform: translateY(0) rotate(0);
+        opacity: 0.5;
+    }
+    50% {
+        transform: translateY(-50vh) rotate(180deg);
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateY(-100vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* 导航栏滚动特效 */
+.navbar {
+    transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.navbar.scrolled {
+    background: var(--nav-bg);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.navbar.scroll-up {
+    transform: translateY(0);
+}
+
+.navbar.scroll-down {
+    transform: translateY(-100%);
+}
+
+/* 标题文字闪光效果 */
+.hero h1 {
+    position: relative;
+    overflow: hidden;
+}
+
+.hero h1::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.4),
+        transparent
+    );
+    animation: shine 3s infinite;
+}
+
+@keyframes shine {
+    0% {
+        left: -100%;
+    }
+    20% {
+        left: 100%;
+    }
+    100% {
+        left: 100%;
+    }
+}
+
+/* 返回顶部按钮动画 */
+.scroll-top-btn {
+    animation: pulse 1.5s infinite alternate;
+}
+
+.scroll-top-btn:hover {
+    animation: none;
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(255, 107, 154, 0.7);
+    }
+    100% {
+        box-shadow: 0 0 0 10px rgba(255, 107, 154, 0);
+    }
+}
+

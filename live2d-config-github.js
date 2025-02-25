@@ -30,7 +30,7 @@ window.LIVE2D_CONFIG = {
     ],
     
     // 调试模式 - 在GitHub Pages环境中启用以便排查问题
-    debug: true,
+    debug: false,
     
     // 版本信息
     version: "1.0.1-github"

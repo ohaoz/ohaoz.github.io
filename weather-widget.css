@@ -1,0 +1,223 @@
+/* Weather Widget Styles */
+.weather-widget-container {
+    max-width: 280px;
+    margin: 0;
+    position: absolute;
+    top: 80px;
+    right: 20px;
+    background: var(--card-bg, rgba(255, 255, 255, 0.9));
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: all 0.3s ease;
+    animation: fadeIn 0.5s ease-out;
+    z-index: 100;
+}
+
+/* 在小屏幕上改变位置 */
+@media (max-width: 768px) {
+    .weather-widget-container {
+        position: static;  /* 在移动设备上重置为正常流 */
+        max-width: 100%;
+        margin: 10px auto;
+    }
+}
+
+.weather-widget {
+    padding: 15px;
+    color: var(--text-color, #333);
+}
+
+/* Header styles */
+.weather-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    border-bottom: 1px solid var(--border-color, rgba(0, 0, 0, 0.1));
+    padding-bottom: 10px;
+}
+
+.weather-location {
+    font-size: 0.9rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.weather-location i {
+    color: var(--primary-color, #FF6B9A);
+}
+
+.refresh-btn {
+    background: none;
+    border: none;
+    color: var(--primary-color, #FF6B9A);
+    cursor: pointer;
+    font-size: 0.8rem;
+    padding: 5px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.refresh-btn:hover {
+    background: var(--primary-color-light, rgba(255, 107, 154, 0.1));
+    transform: rotate(30deg);
+}
+
+/* 添加关闭按钮 */
+.weather-close-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: none;
+    border: none;
+    color: var(--text-color-secondary, #666);
+    cursor: pointer;
+    font-size: 0.8rem;
+    padding: 3px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    z-index: 1;
+}
+
+.weather-close-btn:hover {
+    color: var(--primary-color, #FF6B9A);
+}
+
+/* Body styles */
+.weather-body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+    gap: 15px;
+}
+
+.weather-icon {
+    font-size: 3rem;
+    color: var(--primary-color, #FF6B9A);
+    text-align: center;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.weather-info {
+    text-align: center;
+}
+
+.weather-temp {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 5px;
+    color: var(--primary-color, #FF6B9A);
+}
+
+.weather-desc {
+    font-size: 0.9rem;
+    color: var(--text-color-secondary, #666);
+}
+
+/* Footer styles */
+.weather-footer {
+    display: flex;
+    justify-content: space-around;
+    padding-top: 10px;
+    border-top: 1px solid var(--border-color, rgba(0, 0, 0, 0.1));
+}
+
+.weather-detail {
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.weather-detail i {
+    color: var(--primary-color, #FF6B9A);
+}
+
+/* Loading state */
+.weather-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 150px;
+    text-align: center;
+    gap: 15px;
+}
+
+.loading-spinner {
+    font-size: 2rem;
+    color: var(--primary-color, #FF6B9A);
+    animation: spin 2s linear infinite;
+}
+
+/* Error state */
+.weather-error {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 150px;
+    text-align: center;
+    gap: 15px;
+}
+
+.error-message {
+    color: var(--error-color, #E74C3C);
+    font-size: 0.9rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.error-message i {
+    font-size: 2rem;
+}
+
+/* Dark mode adjustments */
+.dark-theme .weather-widget-container {
+    background: var(--card-bg-dark, rgba(30, 30, 40, 0.9));
+}
+
+.dark-theme .weather-widget {
+    color: var(--text-color-dark, #f0f0f0);
+}
+
+.dark-theme .weather-desc {
+    color: var(--text-color-secondary-dark, #bbbbbb);
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+} 

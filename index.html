@@ -14,40 +14,15 @@
     <meta name="theme-color" content="#FF6B9A">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="animation.css">
-    <!-- Font Awesome for Live2D widget icons -->
+    <!-- Weather Widget CSS -->
+    <link rel="stylesheet" href="weather-widget.css">
+    <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script src="script.js" defer></script>
-    
-    <!-- Live2D Widget - GitHub Pages专用版本 -->
-    <script>
-        // 监听资源加载错误
-        window.addEventListener('error', function(e) {
-            if (e.target.tagName === 'SCRIPT' || e.target.tagName === 'LINK') {
-                console.error('资源加载失败:', e.target.src || e.target.href);
-            }
-        }, true);
-        
-        // 确保页面完全加载后再初始化看板娘
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('页面加载完成，准备初始化看板娘...');
-        });
-    </script>
-    
-    <!-- 看板娘GitHub Pages专用加载器 -->
-    <script src="live2d-github-pages.js"></script>
-    
-    <!-- 看板娘调试工具 - 仅用于排查问题，发布时可以注释掉 -->
-    <!-- <script src="live2d-debug.js"></script> -->
-    
-    <!-- 看板娘基础样式 -->
-    <link rel="stylesheet" href="waifu.css">
-    
-    <!-- 看板娘核心脚本 -->
-    <script src="live2d.min.js"></script>
-    <script src="waifu-tips.js"></script>
-    
-    <!-- GitHub Pages专用配置 -->
-    <script src="live2d-config-github.js"></script>
+    <!-- UI Enhancement Script -->
+    <script src="ui-enhancements.js" defer></script>
+    <!-- Weather Widget Script -->
+    <script src="weather-widget.js" defer></script>
 </head>
 <body>
     <!-- 可爱的预加载动画会在JS中动态创建 -->
@@ -72,6 +47,9 @@
             </div>
         </div>
     </nav>
+
+    <!-- Weather Widget Container - 移到导航栏下方但在主内容之外 -->
+    <div class="weather-widget-container"></div>
 
     <div class="main-content">
         <section class="hero animate-on-scroll">

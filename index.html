@@ -14,28 +14,15 @@
     <meta name="theme-color" content="#FF6B9A">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="animation.css">
-    <style>
-        #live2d-widget {
-            position: fixed;
-            right: 0;
-            bottom: 0;
-            width: 300px;
-            height: 400px;
-            z-index: 999;
-            pointer-events: none;
-        }
-    </style>
+    <!-- Font Awesome for Live2D widget icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script src="script.js" defer></script>
+    <!-- Live2D Widget -->
+    <script src="live2d-widget-autoload.js"></script>
 </head>
 <body>
     <!-- 可爱的预加载动画会在JS中动态创建 -->
     <div class="preloader"></div>
-
-    <!-- 新的Live2D实现 -->
-    <div id="live2d-widget"></div>
-    <script src="live2d-config.js"></script>
-    <script src="autoload_new.js"></script>
     
     <nav class="navbar">
         <div class="nav-content">

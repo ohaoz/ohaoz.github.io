@@ -1042,3 +1042,149 @@ body::before {
     padding-top: 8px;
     z-index: 5;
 }
+
+/* 移动端导航适配 */
+@media (max-width: 768px) {
+    .nav-content {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .nav-links {
+        margin-top: 10px;
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .nav-links a {
+        padding: 8px 10px;
+        font-size: 0.9rem;
+        margin: 2px;
+    }
+    
+    .theme-toggle {
+        margin-top: 10px;
+    }
+    
+    .theme-toggle span {
+        display: none;
+    }
+    
+    .category-nav {
+        flex-wrap: wrap;
+        padding: 5px;
+    }
+    
+    .category-nav a {
+        margin: 3px;
+        padding: 6px 10px;
+        font-size: 0.8rem;
+    }
+    
+    .article-list {
+        grid-template-columns: 1fr;
+    }
+    
+    .cta-section {
+        padding: 20px 15px;
+    }
+    
+    .subscribe-form {
+        flex-direction: column;
+    }
+    
+    .subscribe-form input {
+        margin-right: 0;
+        margin-bottom: 10px;
+        width: 100%;
+    }
+    
+    .subscribe-form button {
+        width: 100%;
+    }
+    
+    .footer-content {
+        flex-direction: column;
+    }
+    
+    .footer-section {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+    
+    .hero h1 {
+        font-size: 1.8rem;
+    }
+    
+    .hero p {
+        font-size: 1rem;
+    }
+    
+    .section-title {
+        font-size: 1.5rem;
+    }
+}
+
+/* 移动端触摸反馈样式 */
+.touch-active {
+    background-color: rgba(255, 107, 154, 0.2) !important;
+    transition: background-color 0.1s ease-in-out !important;
+}
+
+/* 优化按钮可点击区域 */
+.is-mobile button,
+.is-mobile .nav-links a,
+.is-mobile .category-nav a,
+.is-mobile .theme-toggle,
+.is-mobile .footer-section a {
+    padding: 10px !important;
+    min-height: 44px !important;
+    min-width: 44px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/* 为移动设备增强可触区域 */
+.is-mobile .article-card {
+    cursor: pointer;
+}
+
+/* 移动设备上禁用一些装饰效果以提高性能 */
+.is-mobile .preloader .kawaii-eye {
+    animation-duration: 2s; /* 降低动画频率 */
+}
+
+.is-mobile .footer-content {
+    padding: 20px 10px;
+}
+
+.is-mobile .footer-bottom {
+    padding: 10px;
+}
+
+/* 移动端弱化一些效果，提高性能 */
+@media (max-width: 480px) {
+    .sakura-container {
+        display: none; /* 在小屏幕上完全禁用樱花效果以提高性能 */
+    }
+    
+    .article-card-image img {
+        height: 160px; /* 减小图片高度 */
+    }
+    
+    .hero {
+        padding: 30px 15px; /* 减小内边距 */
+    }
+    
+    /* 内容间距优化 */
+    .section-title {
+        margin: 20px 0 15px;
+    }
+    
+    .main-content {
+        padding: 10px;
+    }
+}

@@ -24,6 +24,24 @@
         elements.themeToggle = document.querySelector('.theme-toggle');
         elements.categoryLinks = document.querySelectorAll('.category-nav a');
         elements.footerLinks = document.querySelectorAll('.footer-section a');
+        
+        // 检测是否为移动设备并添加标记
+        if (window.innerWidth <= 768 || navigator.userAgent.match(/Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i)) {
+            document.body.classList.add('is-mobile');
+        } else {
+            document.body.classList.add('is-desktop');
+        }
+        
+        // 监听窗口大小变化，更新设备类型标记
+        window.addEventListener('resize', () => {
+            if (window.innerWidth <= 768) {
+                document.body.classList.add('is-mobile');
+                document.body.classList.remove('is-desktop');
+            } else {
+                document.body.classList.add('is-desktop');
+                document.body.classList.remove('is-mobile');
+            }
+        });
     }
 
     // 模拟加载进度
@@ -447,38 +465,43 @@
         if (window.loadLive2D) {
             // 延迟加载Live2D，避免影响页面加载速度
             setTimeout(() => {
-                window.loadLive2D();
+                // 在移动设备上延迟更长时间加载看板娘，优先加载页面内容
+                const loadDelay = document.body.classList.contains('is-mobile') ? 2000 : 1000;
                 
-                // 添加模型切换功能
-                const waifuToolBar = document.querySelector('#waifu-tool');
-                if (waifuToolBar) {
-                    // 添加切换模型按钮
-                    const changeModelBtn = document.createElement('span');
-                    changeModelBtn.className = 'fa-solid fa-random';
-                    changeModelBtn.title = '切换模型';
+                setTimeout(() => {
+                    window.loadLive2D();
                     
-                    changeModelBtn.addEventListener('click', () => {
-                        if (window.live2d_config && window.live2d_config.model && window.live2d_config.model.alternativeModels) {
-                            const models = window.live2d_config.model.alternativeModels;
-                            const randomModel = models[Math.floor(Math.random() * models.length)];
-                            
-                            loadlive2d('live2d', randomModel);
-                            
-                            // 显示提示消息
-                            if (window.showMessage) {
-                                window.showMessage('模型已切换！喜欢我的新装扮吗？', 4000);
+                    // 添加模型切换功能
+                    const waifuToolBar = document.querySelector('#waifu-tool');
+                    if (waifuToolBar) {
+                        // 添加切换模型按钮
+                        const changeModelBtn = document.createElement('span');
+                        changeModelBtn.className = 'fa-solid fa-random';
+                        changeModelBtn.title = '切换模型';
+                        
+                        changeModelBtn.addEventListener('click', () => {
+                            if (window.live2d_config && window.live2d_config.model && window.live2d_config.model.alternativeModels) {
+                                const models = window.live2d_config.model.alternativeModels;
+                                const randomModel = models[Math.floor(Math.random() * models.length)];
+                                
+                                loadlive2d('live2d', randomModel);
+                                
+                                // 显示提示消息
+                                if (window.showMessage) {
+                                    window.showMessage('模型已切换！喜欢我的新装扮吗？', 4000);
+                                }
                             }
+                        });
+                        
+                        // 插入到工具栏的第三个位置
+                        if (waifuToolBar.children.length >= 3) {
+                            waifuToolBar.insertBefore(changeModelBtn, waifuToolBar.children[2]);
+                        } else {
+                            waifuToolBar.appendChild(changeModelBtn);
                         }
-                    });
-                    
-                    // 插入到工具栏的第三个位置
-                    if (waifuToolBar.children.length >= 3) {
-                        waifuToolBar.insertBefore(changeModelBtn, waifuToolBar.children[2]);
-                    } else {
-                        waifuToolBar.appendChild(changeModelBtn);
                     }
-                }
-            }, 1000);
+                }, loadDelay);
+            }, 0);
         }
 
         // 添加页面切换动画
@@ -521,6 +544,11 @@
         initializeNavAnimation();
         addRippleEffect();
         initLazyLoading();
+        
+        // 初始化移动端增强功能
+        if (document.body.classList.contains('is-mobile')) {
+            initMobileEnhancements();
+        }
 
         // 初始化Live2D及页面切换效果
         initializeLive2D();
@@ -533,6 +561,11 @@
     
     // 添加鼠标跟随效果
     function addMouseFollowEffect() {
+        // 只在桌面设备上添加鼠标跟随效果
+        if (document.body.classList.contains('is-mobile')) {
+            return;
+        }
+        
         const cursor = document.createElement('div');
         cursor.className = 'custom-cursor';
         document.body.appendChild(cursor);
@@ -552,5 +585,56 @@
                 cursor.classList.remove('cursor-expanded');
             });
         });
+    }
+
+    // 添加移动端增强功能
+    function initMobileEnhancements() {
+        // 为导航链接添加触摸反馈
+        document.querySelectorAll('.nav-links a, .category-nav a').forEach(link => {
+            link.addEventListener('touchstart', () => {
+                link.classList.add('touch-active');
+            });
+            
+            link.addEventListener('touchend', () => {
+                link.classList.remove('touch-active');
+            });
+        });
+        
+        // 修复iOS上的:hover效果持续问题
+        document.addEventListener('touchend', () => {}, true);
+        
+        // 优化移动端图片加载
+        document.querySelectorAll('img').forEach(img => {
+            if (!img.getAttribute('loading')) {
+                img.setAttribute('loading', 'lazy');
+            }
+            
+            if (!img.getAttribute('decoding')) {
+                img.setAttribute('decoding', 'async');
+            }
+        });
+        
+        // 移动端长按复制链接处理
+        document.querySelectorAll('a').forEach(anchor => {
+            anchor.addEventListener('contextmenu', (e) => {
+                if (document.body.classList.contains('is-mobile')) {
+                    // 阻止默认长按菜单
+                    e.preventDefault();
+                }
+            });
+        });
+        
+        // 检测返回顶部按钮的位置，避免遮挡看板娘
+        const scrollBtn = document.querySelector('.scroll-top-btn');
+        const waifu = document.querySelector('#waifu');
+        
+        if (scrollBtn && waifu) {
+            scrollBtn.style.right = '60px'; // 移动到左侧以避免遮挡
+        }
+        
+        // 添加FastClick以减少移动端点击延迟
+        if (typeof FastClick !== 'undefined') {
+            FastClick.attach(document.body);
+        }
     }
 })();

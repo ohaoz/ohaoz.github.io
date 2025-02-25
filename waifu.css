@@ -102,22 +102,58 @@
 /* 移动端适配 */
 @media (max-width: 768px) {
     #waifu {
-        right: 10px;
-        bottom: 10px;
-        transform: scale(0.8);
+        right: 5px;
+        bottom: 5px;
+        transform: scale(0.7);
         transform-origin: right bottom;
     }
     
     #waifu-tips {
-        top: -70px;
-        left: -50px;
-        width: 180px;
-        font-size: 12px;
+        top: -60px;
+        left: -40px;
+        width: 160px;
+        min-height: 40px;
+        font-size: 11px;
+        padding: 8px;
     }
     
     #waifu-tool {
-        top: 5px;
-        right: 5px;
+        top: 3px;
+        right: 3px;
+        padding: 3px;
+    }
+    
+    #waifu-tool span {
+        width: 26px;
+        height: 26px;
+        line-height: 26px;
+        margin-bottom: 3px;
+        font-size: 14px;
+    }
+    
+    /* 竖屏模式下更小 */
+    @media (orientation: portrait) and (max-width: 480px) {
+        #waifu {
+            transform: scale(0.6);
+        }
+        
+        #waifu-tips {
+            width: 140px;
+            font-size: 10px;
+        }
+    }
+    
+    /* 在较小屏幕上默认隐藏看板娘 */
+    @media (max-width: 480px) {
+        #waifu {
+            transform: translateX(70%) scale(0.6);
+            opacity: 0.6;
+        }
+        
+        #waifu:hover {
+            transform: translateX(0) scale(0.7);
+            opacity: 1;
+        }
     }
 }
 
@@ -172,4 +208,25 @@
 #waifu-toggle:hover {
     transform: scale(1.1);
     box-shadow: 0 8px 20px rgba(255, 107, 154, 0.4);
+}
+
+/* 移动端按钮适配 */
+@media (max-width: 768px) {
+    #waifu-toggle {
+        right: 10px;
+        bottom: 10px;
+        width: 36px;
+        height: 36px;
+        font-size: 14px;
+    }
+    
+    /* 增加按钮点击区域，提高可用性 */
+    #waifu-toggle::before {
+        content: '';
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        bottom: -8px;
+        left: -8px;
+    }
 } 

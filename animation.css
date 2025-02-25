@@ -192,6 +192,47 @@
         width: 8px;
         height: 8px;
     }
+
+    .sakura {
+        width: 10px !important;
+        height: 10px !important;
+    }
+    
+    .sakura-container {
+        opacity: 0.6; /* 降低樱花的不透明度，减少视觉干扰 */
+    }
+    
+    .kawaii-loader {
+        transform: scale(0.8);
+    }
+    
+    .fade-in {
+        animation-duration: 0.5s; /* 减少动画时间 */
+    }
+    
+    .scroll-indicator {
+        width: 20px;
+        height: 35px;
+    }
+    
+    .page-transition {
+        transition: opacity 0.4s ease; /* 缩短过渡时间 */
+    }
+    
+    .article-card {
+        transform: none !important; /* 移动端禁用卡片的 3D 变换效果 */
+        transition: transform 0.2s ease-in-out !important;
+    }
+    
+    /* 优化移动端触摸体验 */
+    .article-card:active,
+    .nav-links a:active,
+    .category-nav a:active,
+    .theme-toggle:active,
+    .scroll-top-btn:active {
+        transform: scale(0.97) !important;
+        transition: transform 0.1s !important;
+    }
 }
 
 /* 关键帧动画定义 */

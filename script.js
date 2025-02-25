@@ -443,8 +443,42 @@
 
     // 初始化Live2D相关配置和页面切换效果
     function initializeLive2D() {
+        // 检查是否已经加载了看板娘相关脚本
         if (window.loadLive2D) {
-            window.loadLive2D();
+            // 延迟加载Live2D，避免影响页面加载速度
+            setTimeout(() => {
+                window.loadLive2D();
+                
+                // 添加模型切换功能
+                const waifuToolBar = document.querySelector('#waifu-tool');
+                if (waifuToolBar) {
+                    // 添加切换模型按钮
+                    const changeModelBtn = document.createElement('span');
+                    changeModelBtn.className = 'fa-solid fa-random';
+                    changeModelBtn.title = '切换模型';
+                    
+                    changeModelBtn.addEventListener('click', () => {
+                        if (window.live2d_config && window.live2d_config.model && window.live2d_config.model.alternativeModels) {
+                            const models = window.live2d_config.model.alternativeModels;
+                            const randomModel = models[Math.floor(Math.random() * models.length)];
+                            
+                            loadlive2d('live2d', randomModel);
+                            
+                            // 显示提示消息
+                            if (window.showMessage) {
+                                window.showMessage('模型已切换！喜欢我的新装扮吗？', 4000);
+                            }
+                        }
+                    });
+                    
+                    // 插入到工具栏的第三个位置
+                    if (waifuToolBar.children.length >= 3) {
+                        waifuToolBar.insertBefore(changeModelBtn, waifuToolBar.children[2]);
+                    } else {
+                        waifuToolBar.appendChild(changeModelBtn);
+                    }
+                }
+            }, 1000);
         }
 
         // 添加页面切换动画

@@ -154,36 +154,6 @@ document.querySelectorAll('.post-card, .category-card').forEach(element => {
 window.addEventListener('scroll', animateOnScroll);
 window.addEventListener('load', animateOnScroll);
 
-// 主题切换功能
-function initThemeToggle() {
-    const themeToggle = document.querySelector('.theme-toggle');
-    const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
-    
-    // 检查本地存储的主题设置
-    const currentTheme = localStorage.getItem('theme');
-    if (currentTheme) {
-        document.documentElement.setAttribute('data-theme', currentTheme);
-        updateThemeIcon(currentTheme);
-    } else if (prefersDarkScheme.matches) {
-        document.documentElement.setAttribute('data-theme', 'dark');
-        updateThemeIcon('dark');
-    }
-    
-    themeToggle.addEventListener('click', () => {
-        const currentTheme = document.documentElement.getAttribute('data-theme');
-        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-        
-        document.documentElement.setAttribute('data-theme', newTheme);
-        localStorage.setItem('theme', newTheme);
-        updateThemeIcon(newTheme);
-    });
-}
-
-function updateThemeIcon(theme) {
-    const icon = document.querySelector('.theme-toggle i');
-    icon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
-}
-
 // 阅读进度条功能
 function initProgressBar() {
     const progressBar = document.querySelector('.progress-bar');
@@ -208,6 +178,5 @@ window.addEventListener('load', () => {
 
 // 初始化所有功能
 document.addEventListener('DOMContentLoaded', () => {
-    initThemeToggle();
     initProgressBar();
 });

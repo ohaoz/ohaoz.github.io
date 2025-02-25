@@ -12,6 +12,13 @@
     transition: all 0.3s ease;
     animation: fadeIn 0.5s ease-out;
     z-index: 100;
+    width: 220px; /* 固定宽度，防止在主题切换时改变 */
+}
+
+/* 暗色模式下的天气小部件 */
+[data-theme="dark"] .weather-widget-container {
+    background: var(--card-bg, rgba(30, 30, 40, 0.95));
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
 /* 隐藏状态的小部件 */
@@ -230,16 +237,33 @@
 }
 
 /* Dark mode adjustments */
-.dark-theme .weather-widget-container {
+[data-theme="dark"] .weather-widget-container {
     background: var(--card-bg-dark, rgba(30, 30, 40, 0.9));
 }
 
-.dark-theme .weather-widget {
+[data-theme="dark"] .weather-widget {
     color: var(--text-color-dark, #f0f0f0);
 }
 
-.dark-theme .weather-desc {
+[data-theme="dark"] .weather-desc {
     color: var(--text-color-secondary-dark, #bbbbbb);
+}
+
+/* 添加更多暗色模式样式 */
+[data-theme="dark"] .weather-footer {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .weather-header {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .weather-icon i {
+    color: var(--primary-color, #FFB6C1);
+}
+
+[data-theme="dark"] .refresh-btn:hover {
+    background: rgba(255, 107, 154, 0.2);
 }
 
 /* Animations */

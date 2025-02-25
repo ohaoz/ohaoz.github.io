@@ -370,7 +370,28 @@
             
             document.documentElement.setAttribute('data-theme', newTheme);
             localStorage.setItem('theme', newTheme);
-            updateThemeUI(newTheme);
+            
+            // 平滑过渡主题按钮文本
+            if (themeText) {
+                // 淡出当前文本
+                themeText.style.opacity = '0';
+                themeText.style.transform = 'translateY(5px)';
+                
+                // 短暂延迟后更新文本并淡入
+                setTimeout(() => {
+                    // 预先设置好宽度，防止文本重排导致的不良布局
+                    themeText.style.width = '60px';
+                    updateThemeUI(newTheme);
+                    
+                    // 确保DOM有时间更新
+                    setTimeout(() => {
+                        themeText.style.opacity = '1';
+                        themeText.style.transform = 'translateY(0)';
+                    }, 50);
+                }, 150);
+            } else {
+                updateThemeUI(newTheme);
+            }
             
             // 添加主题切换动画
             document.body.classList.add('theme-transition');

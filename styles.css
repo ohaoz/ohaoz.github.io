@@ -582,6 +582,7 @@ html {
     transition: all 0.2s ease;
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 0.5rem;
     color: var(--text-color);
     position: relative;
@@ -590,6 +591,7 @@ html {
     user-select: none;
     margin-left: 20px;
     z-index: 1001;
+    width: 130px; /* 增加宽度，从110px改为130px，以适应中文字符 */
 }
 
 .theme-toggle:hover {
@@ -638,6 +640,14 @@ html {
 .theme-toggle span {
     font-size: 0.9rem;
     font-weight: 500;
+    text-align: center; /* 确保文本居中 */
+    transition: opacity 0.2s ease, transform 0.2s ease; /* 添加文本过渡效果 */
+    width: 80px; /* 增加宽度，从60px改为80px，以适应中文字符 */
+    white-space: nowrap; /* 防止文本换行 */
+    display: inline-block; /* 更好的文本控制 */
+    height: 1.2em; /* 固定高度 */
+    line-height: 1.2; /* 使文本垂直居中 */
+    overflow: hidden; /* 防止溢出 */
 }
 
 /* 优化移动端主题切换按钮 */
@@ -645,10 +655,15 @@ html {
     .theme-toggle {
         padding: 0.4rem 0.8rem;
         border-radius: 1.5rem;
+        width: 120px; /* 移动端宽度也相应增加，从100px改为120px */
     }
     
     .theme-toggle i {
         font-size: 0.9rem;
+    }
+    
+    .theme-toggle span {
+        width: 70px; /* 移动端文本容器宽度增加，从50px改为70px */
     }
 }
 

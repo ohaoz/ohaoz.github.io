@@ -269,19 +269,66 @@
 
     // 创建返回顶部按钮
     function createScrollToTopButton() {
+        // 先检查是否已存在按钮，避免重复创建
+        if (document.querySelector('.scroll-top-btn')) {
+            return;
+        }
+        
         const scrollBtn = document.createElement('button');
         scrollBtn.className = 'scroll-top-btn ripple';
         scrollBtn.innerHTML = '<i class="fas fa-arrow-up"></i>';
         scrollBtn.setAttribute('aria-label', '返回顶部');
         
-        scrollBtn.addEventListener('click', () => {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        });
+        // 使用更强制的样式设置方式
+        scrollBtn.style.cssText = `
+            position: fixed !important;
+            bottom: 2rem !important;
+            right: 2rem !important;
+            left: auto !important;
+            top: auto !important;
+            opacity: 0;
+            z-index: 9999;
+        `;
         
+        // 确保按钮添加到body的最后位置
         document.body.appendChild(scrollBtn);
+        
+        // 确保按钮在任何其他元素之后添加
+        setTimeout(() => {
+            // 再次确认按钮在DOM中的位置，如果不是在body下，重新添加
+            if (scrollBtn.parentElement !== document.body) {
+                document.body.appendChild(scrollBtn);
+            }
+            
+            // 添加滚动监听，控制按钮显示/隐藏
+            window.addEventListener('scroll', () => {
+                const scrollPosition = window.scrollY || document.documentElement.scrollTop;
+                if (scrollPosition > 300) {
+                    scrollBtn.classList.add('visible');
+                } else {
+                    scrollBtn.classList.remove('visible');
+                }
+            });
+            
+            // 初始检查滚动位置
+            const initialScrollPosition = window.scrollY || document.documentElement.scrollTop;
+            if (initialScrollPosition > 300) {
+                scrollBtn.classList.add('visible');
+            }
+            
+            // 添加点击事件
+            scrollBtn.addEventListener('click', () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+                // 添加点击反馈效果
+                scrollBtn.classList.add('clicked');
+                setTimeout(() => {
+                    scrollBtn.classList.remove('clicked');
+                }, 300);
+            });
+        }, 100);
     }
 
     // 添加暗色模式切换功能
@@ -468,10 +515,11 @@
     // 合并所有初始化操作于DOMContentLoaded事件
     document.addEventListener('DOMContentLoaded', () => {
         initializeElements();
+        // 确保尽早创建返回顶部按钮
+        createScrollToTopButton();
         simulateLoading();
         initializeDarkMode();
         initializeSmoothScroll();
-        createScrollToTopButton();
         initializeCardEffects();
         initializeNavAnimation();
         addRippleEffect();
@@ -489,6 +537,9 @@
         if (window.innerWidth > 768) {
             addMouseFollowEffect();
         }
+        
+        // 定期检查返回顶部按钮是否正确附加到body
+        ensureButtonAttachedToBody();
     });
     
     // 添加鼠标跟随效果
@@ -519,6 +570,34 @@
         });
     }
 
+    // 确保返回顶部按钮直接附加到body
+    function ensureButtonAttachedToBody() {
+        // 每0.5秒检查一次
+        setInterval(() => {
+            const scrollBtn = document.querySelector('.scroll-top-btn');
+            if (scrollBtn && scrollBtn.parentElement !== document.body) {
+                console.log('重新附加返回顶部按钮到body');
+                document.body.appendChild(scrollBtn);
+                
+                // 重新设置样式
+                scrollBtn.style.cssText = `
+                    position: fixed !important;
+                    bottom: 2rem !important;
+                    right: 2rem !important;
+                    left: auto !important;
+                    top: auto !important;
+                    z-index: 9999 !important;
+                `;
+                
+                // 如果在移动设备上，调整位置
+                if (window.innerWidth <= 768) {
+                    scrollBtn.style.bottom = '1.5rem !important';
+                    scrollBtn.style.right = '1.5rem !important';
+                }
+            }
+        }, 500);
+    }
+
     // 添加移动端增强功能
     function initMobileEnhancements() {
         // 为导航链接添加触摸反馈
@@ -531,6 +610,22 @@
                 link.classList.remove('touch-active');
             });
         });
+        
+        // 为返回顶部按钮添加触摸反馈
+        const scrollTopBtn = document.querySelector('.scroll-top-btn');
+        if (scrollTopBtn) {
+            scrollTopBtn.addEventListener('touchstart', () => {
+                scrollTopBtn.classList.add('touch-active');
+                scrollTopBtn.classList.add('clicked');
+            });
+            
+            scrollTopBtn.addEventListener('touchend', () => {
+                scrollTopBtn.classList.remove('touch-active');
+                setTimeout(() => {
+                    scrollTopBtn.classList.remove('clicked');
+                }, 300);
+            });
+        }
         
         // 修复iOS上的:hover效果持续问题
         document.addEventListener('touchend', () => {}, true);
@@ -561,7 +656,57 @@
         const waifu = document.querySelector('#waifu');
         
         if (scrollBtn && waifu) {
-            scrollBtn.style.right = '60px'; // 移动到左侧以避免遮挡
+            // 使用更强制的样式设置方式
+            scrollBtn.style.cssText = `
+                position: fixed !important;
+                bottom: 2rem !important;
+                right: 2rem !important;
+                left: auto !important;
+                top: auto !important;
+                z-index: 9999 !important;
+            `;
+            
+            // 监听窗口大小变化，动态调整按钮位置
+            window.addEventListener('resize', () => {
+                if (window.innerWidth <= 768) {
+                    // 移动端位置
+                    scrollBtn.style.cssText = `
+                        position: fixed !important;
+                        bottom: 1.5rem !important;
+                        right: 1.5rem !important;
+                        left: auto !important;
+                        top: auto !important;
+                        z-index: 9999 !important;
+                    `;
+                } else {
+                    // 检查Live2D模型是否显示
+                    const waifuDisplay = window.getComputedStyle(waifu).display;
+                    if (waifuDisplay !== 'none') {
+                        // 避开Live2D
+                        scrollBtn.style.cssText = `
+                            position: fixed !important;
+                            bottom: 2rem !important;
+                            right: 320px !important;
+                            left: auto !important;
+                            top: auto !important;
+                            z-index: 9999 !important;
+                        `;
+                    } else {
+                        // 默认位置
+                        scrollBtn.style.cssText = `
+                            position: fixed !important;
+                            bottom: 2rem !important;
+                            right: 2rem !important;
+                            left: auto !important;
+                            top: auto !important;
+                            z-index: 9999 !important;
+                        `;
+                    }
+                }
+            });
+            
+            // 初始化时触发一次resize事件来设置正确的位置
+            window.dispatchEvent(new Event('resize'));
         }
         
         // 添加FastClick以减少移动端点击延迟

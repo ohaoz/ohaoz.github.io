@@ -101,3 +101,27 @@ function setupToggle() {
 document.addEventListener("DOMContentLoaded", () => {
 	console.log("页面加载完成，Live2D自动加载脚本已执行");
 }); 
+	const tools = waifuTool.querySelectorAll("span");
+	
+	// 关闭按钮
+	if (tools[0]) {
+		tools[0].addEventListener("click", () => {
+            const waifu = document.getElementById("waifu");
+            if (waifu) {
+                waifu.style.display = "none";
+            }
+		});
+	}
+}
+
+// 监控网络错误，在控制台输出更多信息
+window.addEventListener('error', function(e) {
+    if (e.target.tagName === 'SCRIPT' || e.target.tagName === 'LINK') {
+        console.error('资源加载失败:', e.target.src || e.target.href);
+    }
+}, true);
+
+// 页面加载完成后执行
+document.addEventListener("DOMContentLoaded", () => {
+	console.log("页面加载完成，Live2D自动加载脚本已执行");
+});

@@ -5,13 +5,13 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: #000080;
+    background: #111827;
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 9999;
     opacity: 1;
-    transition: opacity 0.5s ease-out;
+    transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .preloader.fade-out {
@@ -23,211 +23,135 @@
     color: #fff;
     font-family: "Segoe UI", sans-serif;
     text-align: center;
-    padding: 2rem;
+    padding: 3rem;
     max-width: 800px;
     position: relative;
-    animation: scanline 6s linear infinite;
+    animation: scanline 8s linear infinite;
+    border-radius: 12px;
+    background: rgba(30, 58, 138, 0.8);
+    border: 1px solid rgba(147, 197, 253, 0.3);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
 }
 
 @keyframes scanline {
     0% {
         background: linear-gradient(to bottom,
-            transparent 0%,
-            rgba(32, 128, 255, 0.2) 10%,
-            transparent 100%);
+            rgba(30, 58, 138, 0) 0%,
+            rgba(147, 197, 253, 0.2) 50%,
+            rgba(30, 58, 138, 0) 100%);
         background-size: 100% 100%;
         background-position: 0 -100%;
     }
     100% {
         background: linear-gradient(to bottom,
-            transparent 0%,
-            rgba(32, 128, 255, 0.2) 10%,
-            transparent 100%);
+            rgba(30, 58, 138, 0) 0%,
+            rgba(147, 197, 253, 0.2) 50%,
+            rgba(30, 58, 138, 0) 100%);
         background-size: 100% 100%;
-        background-position: 0 100%;
+        background-position: 0 200%;
     }
 }
 
 .sad-face {
     font-size: 6rem;
     margin-bottom: 2rem;
-    font-weight: bold;
-    text-shadow: 0 0 10px #00fff2,
-                 0 0 20px #00fff2,
-                 0 0 30px #00fff2;
-    animation: neonPulse 1.5s ease-in-out infinite alternate;
+    color: #60A5FA;
+    animation: pulse 3s ease-in-out infinite;
 }
 
-@keyframes neonPulse {
-    from {
-        text-shadow: 0 0 10px #00fff2,
-                     0 0 20px #00fff2,
-                     0 0 30px #00fff2;
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1);
     }
-    to {
-        text-shadow: 0 0 20px #00fff2,
-                     0 0 30px #00fff2,
-                     0 0 40px #00fff2,
-                     0 0 50px #00fff2;
+    50% {
+        opacity: 0.7;
+        transform: scale(0.95);
     }
 }
 
 .error-title {
-    font-size: 2.5rem;
+    font-size: 2.25rem;
     margin-bottom: 1.5rem;
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    position: relative;
-    animation: glitchText 3s infinite;
-}
-
-@keyframes glitchText {
-    0% {
-        text-shadow: none;
-    }
-    20% {
-        text-shadow: 2px 0 #ff00ff, -2px 0 #00fff2;
-    }
-    40% {
-        text-shadow: -2px 0 #ff00ff, 2px 0 #00fff2;
-    }
-    60% {
-        text-shadow: none;
-    }
-    80% {
-        text-shadow: 1px 0 #ff00ff, -1px 0 #00fff2;
-    }
-    100% {
-        text-shadow: none;
-    }
+    font-weight: 600;
+    color: #93C5FD;
 }
 
 .error-text {
-    font-size: 1.4rem;
+    font-size: 1.25rem;
+    line-height: 1.7;
     margin-bottom: 2rem;
-    line-height: 1.6;
-    color: #00fff2;
-    text-shadow: 0 0 5px #00fff2;
+    opacity: 0.9;
 }
 
 .progress-container {
-    margin: 2rem 0;
-    position: relative;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+    border: 1px solid rgba(147, 197, 253, 0.2);
 }
 
 .progress-text {
-    font-size: 1.2rem;
-    margin-bottom: 1rem;
-    display: block;
-    color: #ff00ff;
-    text-shadow: 0 0 5px #ff00ff;
+    font-size: 1rem;
+    color: #93C5FD;
 }
 
 .progress-dots {
     display: flex;
+    gap: 0.5rem;
     justify-content: center;
-    gap: 1rem;
 }
 
 .dot {
     width: 12px;
     height: 12px;
-    background: #00fff2;
+    background-color: #60A5FA;
     border-radius: 50%;
-    box-shadow: 0 0 10px #00fff2;
-    animation: cyberpunkDot 1.5s infinite;
+    opacity: 0.3;
+    animation: dot-pulse 1.5s infinite;
 }
 
-@keyframes cyberpunkDot {
-    0%, 100% {
-        transform: scale(0.8);
-        opacity: 0.3;
-        box-shadow: 0 0 5px #00fff2;
-    }
-    50% {
-        transform: scale(1.2);
-        opacity: 1;
-        box-shadow: 0 0 20px #00fff2,
-                    0 0 30px #00fff2,
-                    0 0 40px #00fff2;
-    }
+.dot:nth-child(2) {
+    animation-delay: 0.2s;
 }
 
-.dot:nth-child(2) { animation-delay: 0.2s; }
-.dot:nth-child(3) { animation-delay: 0.4s; }
-.dot:nth-child(4) { animation-delay: 0.6s; }
-.dot:nth-child(5) { animation-delay: 0.8s; }
+.dot:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+.dot:nth-child(4) {
+    animation-delay: 0.6s;
+}
+
+.dot:nth-child(5) {
+    animation-delay: 0.8s;
+}
 
 .stop-code {
     font-family: monospace;
-    font-size: 1.2rem;
-    margin: 2rem 0;
+    background: rgba(0, 0, 0, 0.3);
     padding: 1rem;
-    background: rgba(0, 255, 242, 0.1);
-    border: 1px solid #00fff2;
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 255, 242, 0.3);
-    position: relative;
-    overflow: hidden;
-}
-
-.stop-code::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: linear-gradient(
-        45deg,
-        transparent,
-        rgba(0, 255, 242, 0.1),
-        transparent
-    );
-    transform: rotate(45deg);
-    animation: scanEffect 3s linear infinite;
-}
-
-@keyframes scanEffect {
-    0% {
-        transform: translate(-50%, -50%) rotate(45deg);
-    }
-    100% {
-        transform: translate(50%, 50%) rotate(45deg);
-    }
+    margin-bottom: 2rem;
+    border-left: 4px solid #60A5FA;
 }
 
 .panda-meme {
-    margin: 2rem auto;
-    width: 200px;
-    height: 200px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    margin-top: 2rem;
     position: relative;
-    animation: hologram 3s ease-in-out infinite;
-}
-
-@keyframes hologram {
-    0%, 100% {
-        transform: translateY(0) scale(1);
-        filter: brightness(1) hue-rotate(0deg);
-    }
-    50% {
-        transform: translateY(-10px) scale(1.05);
-        filter: brightness(1.2) hue-rotate(90deg);
-    }
 }
 
 .panda-gif {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    border-radius: 10px;
-    border: 2px solid #00fff2;
-    box-shadow: 0 0 20px rgba(0, 255, 242, 0.5);
-    filter: drop-shadow(0 0 10px #00fff2);
+    max-width: 200px;
+    border-radius: 8px;
+    border: 2px solid rgba(147, 197, 253, 0.3);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+    transform: rotate(-5deg);
+    animation: float 6s ease-in-out infinite;
 }
 
 /* 内容过渡动画 */
@@ -267,5 +191,274 @@
     .dot {
         width: 8px;
         height: 8px;
+    }
+}
+
+/* 关键帧动画定义 */
+@keyframes dot-pulse {
+    0%, 100% {
+        opacity: 0.3;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.2);
+    }
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0) rotate(-5deg);
+    }
+    50% {
+        transform: translateY(-10px) rotate(-2deg);
+    }
+}
+
+/* 页面过渡动画 */
+.page-transition {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--gradient-primary);
+    z-index: 9998;
+    transform: translateX(-100%);
+    transition: transform 0.6s cubic-bezier(0.65, 0, 0.35, 1);
+    pointer-events: none;
+}
+
+.page-transition.active {
+    transform: translateX(0);
+}
+
+/* 滚动指示器 */
+.scroll-indicator {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 60px;
+    border: 2px solid rgba(255, 107, 154, 0.8);
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    padding-top: 8px;
+    z-index: 5;
+    box-shadow: 0 0 10px rgba(255, 107, 154, 0.3);
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+}
+
+.scroll-indicator::before {
+    content: '';
+    width: 10px;
+    height: 10px;
+    background: #FF6B9A;
+    border-radius: 50%;
+    animation: scroll-down 2s infinite;
+    box-shadow: 0 0 5px rgba(255, 107, 154, 0.5);
+}
+
+@keyframes scroll-down {
+    0% {
+        opacity: 0;
+        transform: translateY(0);
+    }
+    30% {
+        opacity: 1;
+    }
+    60% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+}
+
+/* 淡入淡出动画 */
+.fade-in {
+    animation: bounce-in 1s forwards;
+    opacity: 0;
+}
+
+@keyframes bounce-in {
+    0% {
+        opacity: 0;
+        transform: translateY(40px) scale(0.8);
+    }
+    60% {
+        transform: translateY(-10px) scale(1.05);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* 文章卡片悬停动画 */
+.article-card:hover img {
+    transform: scale(1.05);
+}
+
+/* 添加导航链接动画 */
+.nav-links a:hover i {
+    animation: wobble 0.8s cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+@keyframes wobble {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(-5px);
+    }
+    75% {
+        transform: translateX(5px);
+    }
+}
+
+/* 添加点击波纹效果 */
+.ripple {
+    position: relative;
+    overflow: hidden;
+}
+
+.ripple::after {
+    content: '';
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    transform: scale(0);
+    animation: ripple 0.5s ease-out;
+    transform-origin: center;
+}
+
+@keyframes ripple {
+    to {
+        transform: scale(2);
+        opacity: 0;
+    }
+}
+
+/* 樱花飘落效果 */
+.sakura-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.sakura {
+    position: absolute;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="%23FFC0CB"><path d="M12 2C7.58 2 4 5.58 4 10c0 2.03.76 3.87 2 5.28V16c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2v-.72c1.24-1.41 2-3.25 2-5.28 0-4.42-3.58-8-8-8zm-4 12.28c-.6.35-1.1.78-1.5 1.27-.4-.49-.9-.92-1.5-1.27.6-.35 1.1-.78 1.5-1.27.4.49.9.92 1.5 1.27zm4 0c-.6.35-1.1.78-1.5 1.27-.4-.49-.9-.92-1.5-1.27.6-.35 1.1-.78 1.5-1.27.4.49.9.92 1.5 1.27zm4 0c-.6.35-1.1.78-1.5 1.27-.4-.49-.9-.92-1.5-1.27.6-.35 1.1-.78 1.5-1.27.4.49.9.92 1.5 1.27z"/></svg>') no-repeat;
+    width: 24px;
+    height: 24px;
+    filter: drop-shadow(0 0 2px rgba(255, 192, 203, 0.5));
+    animation: sakura-fall linear infinite, sakura-shake ease-in-out infinite alternate;
+}
+
+@keyframes sakura-fall {
+    0% {
+        top: -10%;
+        opacity: 1;
+    }
+    100% {
+        top: 100%;
+        opacity: 0.3;
+    }
+}
+
+@keyframes sakura-shake {
+    0% {
+        transform: translateX(0) rotate(0deg);
+    }
+    50% {
+        transform: translateX(25px) rotate(45deg);
+    }
+    100% {
+        transform: translateX(-25px) rotate(-45deg);
+    }
+}
+
+/* 可爱的加载动画 */
+.kawaii-loader {
+    width: 80px;
+    height: 80px;
+    position: relative;
+    margin: 0 auto;
+}
+
+.kawaii-face {
+    width: 60px;
+    height: 60px;
+    background: #FFC0CB;
+    border-radius: 50%;
+    position: relative;
+    margin: 0 auto;
+    animation: bounce 1.5s infinite alternate;
+    box-shadow: 0 5px 15px rgba(255, 107, 154, 0.3);
+}
+
+.kawaii-eye {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: #4A4A6A;
+    border-radius: 50%;
+    top: 20px;
+}
+
+.kawaii-eye.left {
+    left: 18px;
+}
+
+.kawaii-eye.right {
+    right: 18px;
+}
+
+.kawaii-mouth {
+    position: absolute;
+    width: 16px;
+    height: 8px;
+    background: #4A4A6A;
+    border-radius: 0 0 10px 10px;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.kawaii-blush {
+    position: absolute;
+    width: 12px;
+    height: 6px;
+    background: rgba(255, 107, 154, 0.5);
+    border-radius: 50%;
+    top: 25px;
+}
+
+.kawaii-blush.left {
+    left: 10px;
+}
+
+.kawaii-blush.right {
+    right: 10px;
+}
+
+@keyframes bounce {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(-15px);
     }
 }

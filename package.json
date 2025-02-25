@@ -12,5 +12,8 @@
   "license": "ISC",
   "devDependencies": {
     "live-server": "^1.2.2"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/server-github": "^2025.1.23"
   }
 }

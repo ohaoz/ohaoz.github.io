@@ -12,15 +12,23 @@
         ipApiUrl: 'https://api.ipify.org?format=json', // 使用安全的HTTPS API获取IP
         ipGeoUrl: 'https://api.ipgeolocation.io/ipgeo?apiKey=d5952a7f1e584097b2925d02acbd91b2', // 免费的IP地理位置API
         weatherApiUrl: 'https://api.open-meteo.com/v1/forecast', // Free weather API
-        weatherParams: 'current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m&daily=weather_code&timezone=auto',
+        weatherParams: 'current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m,apparent_temperature&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=auto&forecast_days=3',
         containerSelector: '.weather-widget-container',
+        toggleBtnSelector: '.weather-toggle-btn',
         refreshInterval: 30 * 60 * 1000, // 30 minutes in milliseconds
         defaultLocation: { // 添加默认位置，当无法获取地理位置时使用
             latitude: 39.9042,
             longitude: 116.4074,
             city: '北京',
             country: '中国'
-        }
+        },
+        localStorageKeys: {
+            widgetState: 'weatherWidgetState',
+            weatherData: 'weatherWidgetData',
+            lastUpdate: 'weatherLastUpdate',
+            userLocation: 'weatherUserLocation'
+        },
+        animationDuration: 300 // ms
     };
 
     // Weather code to description and icon mapping
@@ -55,11 +63,45 @@
         99: { description: '强雷阵雨伴有冰雹', icon: 'fa-cloud-meatball' }
     };
 
+    // 天气图标根据时间变化
+    function getWeatherIcon(code, isNight = false) {
+        const iconInfo = weatherCodes[code] || { description: '未知', icon: 'fa-question' };
+        
+        // 针对部分天气状况，根据白天/夜间调整图标
+        if (isNight) {
+            switch (code) {
+                case 0:
+                case 1:
+                    return 'fa-moon';
+                case 2:
+                    return 'fa-cloud-moon';
+                default:
+                    return iconInfo.icon;
+            }
+        }
+        
+        return iconInfo.icon;
+    }
+
+    /**
+     * 检查是否是夜间
+     */
+    function isNightTime() {
+        const hour = new Date().getHours();
+        return hour >= 19 || hour < 6;
+    }
+
     /**
      * Fetch the user's location based on their IP address
      */
     async function fetchLocation() {
         try {
+            // 检查本地存储是否有位置信息
+            const cachedLocation = localStorage.getItem(config.localStorageKeys.userLocation);
+            if (cachedLocation) {
+                return JSON.parse(cachedLocation);
+            }
+            
             // 简化地理位置获取过程，直接使用免费API
             const geoUrl = 'https://ipapi.co/json/';
             console.log('Fetching location from:', geoUrl);
@@ -70,12 +112,17 @@
             console.log('Location API response:', geoData);
             
             if (geoResponse.ok && geoData.latitude && geoData.longitude) {
-                return {
+                const locationData = {
                     latitude: geoData.latitude,
                     longitude: geoData.longitude,
                     city: geoData.city || '未知城市',
                     country: geoData.country_name || geoData.country || '未知国家'
                 };
+                
+                // 保存位置信息到本地存储
+                localStorage.setItem(config.localStorageKeys.userLocation, JSON.stringify(locationData));
+                
+                return locationData;
             } else {
                 console.warn('Geolocation API error:', geoData);
                 return config.defaultLocation;
@@ -103,6 +150,10 @@
             console.log('Weather API response:', data);
             
             if (data.current) {
+                // 保存天气数据到本地存储
+                localStorage.setItem(config.localStorageKeys.weatherData, JSON.stringify(data));
+                localStorage.setItem(config.localStorageKeys.lastUpdate, Date.now().toString());
+                
                 return data;
             } else if (data.error) {
                 throw new Error(`Weather API error: ${data.reason || 'Unknown error'}`);
@@ -123,15 +174,41 @@
         if (!weatherContainer) return;
 
         const currentWeather = weather.current;
+        const dailyWeather = weather.daily;
         const weatherCode = currentWeather.weather_code;
+        
+        const isNight = isNightTime();
+        const weatherIcon = getWeatherIcon(weatherCode, isNight);
         const weatherInfo = weatherCodes[weatherCode] || { description: '未知', icon: 'fa-question' };
         
         const temperature = Math.round(currentWeather.temperature_2m);
+        const feelsLike = Math.round(currentWeather.apparent_temperature);
         const humidity = Math.round(currentWeather.relative_humidity_2m);
         const windSpeed = Math.round(currentWeather.wind_speed_10m);
         
+        // 获取未来天气预报
+        let forecastHTML = '';
+        if (dailyWeather && dailyWeather.time) {
+            const days = ['今天', '明天', '后天'];
+            for (let i = 0; i < Math.min(3, dailyWeather.time.length); i++) {
+                const date = new Date(dailyWeather.time[i]);
+                const dayCode = dailyWeather.weather_code[i];
+                const dayIcon = getWeatherIcon(dayCode);
+                const maxTemp = Math.round(dailyWeather.temperature_2m_max[i]);
+                const minTemp = Math.round(dailyWeather.temperature_2m_min[i]);
+                
+                forecastHTML += `
+                    <div class="forecast-day">
+                        <div class="forecast-date">${days[i]}</div>
+                        <div class="forecast-icon"><i class="fas ${dayIcon}"></i></div>
+                        <div class="forecast-temp">${minTemp}° / ${maxTemp}°</div>
+                    </div>
+                `;
+            }
+        }
+        
         const widgetHTML = `
-            <div class="weather-widget">
+            <div class="weather-widget ${isNight ? 'night-mode' : ''}">
                 <div class="weather-header">
                     <div class="weather-location">
                         <i class="fas fa-map-marker-alt"></i> ${location.city}, ${location.country}
@@ -144,12 +221,16 @@
                 </div>
                 <div class="weather-body">
                     <div class="weather-icon">
-                        <i class="fas ${weatherInfo.icon}"></i>
+                        <i class="fas ${weatherIcon}"></i>
                     </div>
                     <div class="weather-info">
                         <div class="weather-temp">${temperature}°C</div>
                         <div class="weather-desc">${weatherInfo.description}</div>
+                        <div class="weather-feels-like">体感温度: ${feelsLike}°C</div>
                     </div>
+                </div>
+                <div class="weather-forecast">
+                    ${forecastHTML}
                 </div>
                 <div class="weather-footer">
                     <div class="weather-detail">
@@ -164,15 +245,13 @@
         
         weatherContainer.innerHTML = widgetHTML;
         
-        // 缓存天气小部件的HTML内容
-        localStorage.setItem('weatherWidgetHTML', widgetHTML);
-        // 更新最后更新时间戳
-        localStorage.setItem('weatherLastUpdate', Date.now().toString());
-        
         // Add event listener for refresh button
         const refreshBtn = weatherContainer.querySelector('.refresh-btn');
         if (refreshBtn) {
-            refreshBtn.addEventListener('click', initWeatherWidget);
+            refreshBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                initWeatherWidget(true);
+            });
         }
     }
 
@@ -198,14 +277,17 @@
         // Add event listener for refresh button
         const refreshBtn = weatherContainer.querySelector('.refresh-btn');
         if (refreshBtn) {
-            refreshBtn.addEventListener('click', initWeatherWidget);
+            refreshBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                initWeatherWidget(true);
+            });
         }
     }
 
     /**
      * Initialize the weather widget
      */
-    async function initWeatherWidget() {
+    async function initWeatherWidget(forceRefresh = false) {
         try {
             // Show loading state
             const weatherContainer = document.querySelector(config.containerSelector);
@@ -220,14 +302,30 @@
                 `;
             }
             
-            // Fetch location data
-            const location = await fetchLocation();
+            let location, weather;
+            
+            // 检查是否需要刷新数据
+            if (!forceRefresh && !shouldRefreshWeather()) {
+                // 使用缓存的数据
+                const cachedLocation = localStorage.getItem(config.localStorageKeys.userLocation);
+                const cachedWeather = localStorage.getItem(config.localStorageKeys.weatherData);
+                
+                if (cachedLocation && cachedWeather) {
+                    location = JSON.parse(cachedLocation);
+                    weather = JSON.parse(cachedWeather);
+                    
+                    createWeatherWidget(location, weather);
+                    return;
+                }
+            }
+            
+            // 获取新数据
+            location = await fetchLocation();
             if (!location) {
                 throw new Error('无法获取位置信息');
             }
             
-            // Fetch weather data
-            const weather = await fetchWeather(location.latitude, location.longitude);
+            weather = await fetchWeather(location.latitude, location.longitude);
             if (!weather) {
                 throw new Error('无法获取天气数据');
             }
@@ -244,7 +342,7 @@
      * Check if weather data should be refreshed
      */
     function shouldRefreshWeather() {
-        const lastUpdate = localStorage.getItem('weatherLastUpdate');
+        const lastUpdate = localStorage.getItem(config.localStorageKeys.lastUpdate);
         if (!lastUpdate) return true;
         
         const now = Date.now();
@@ -254,72 +352,87 @@
     }
 
     /**
-     * Initialize the module when DOM is ready
+     * 初始化天气小部件的显示/隐藏状态
      */
-    function init() {
-        // Check if weather widget container exists
-        const weatherContainer = document.querySelector(config.containerSelector);
-        if (!weatherContainer) {
-            console.warn('Weather widget container not found');
-            return;
-        }
+    function initWidgetVisibility() {
+        const container = document.querySelector(config.containerSelector);
+        const toggleBtn = document.querySelector(config.toggleBtnSelector);
         
-        // 初始化天气切换按钮功能
-        initToggleButton();
+        if (!container || !toggleBtn) return;
         
-        // Load weather data if needed
-        if (shouldRefreshWeather()) {
-            initWeatherWidget();
+        // 从本地存储获取小部件状态
+        const isHidden = localStorage.getItem(config.localStorageKeys.widgetState) === 'hidden';
+        
+        if (isHidden) {
+            container.classList.add('hidden');
+            toggleBtn.classList.add('hidden');
+            toggleBtn.setAttribute('aria-expanded', 'false');
+            toggleBtn.setAttribute('title', '显示天气');
         } else {
-            // Try to use cached data if available, otherwise fetch new data
-            const cachedHTML = localStorage.getItem('weatherWidgetHTML');
-            if (cachedHTML) {
-                weatherContainer.innerHTML = cachedHTML;
-                
-                // Add event listener for refresh button
-                const refreshBtn = weatherContainer.querySelector('.refresh-btn');
-                if (refreshBtn) {
-                    refreshBtn.addEventListener('click', initWeatherWidget);
-                }
-            } else {
-                initWeatherWidget();
-            }
+            container.classList.remove('hidden');
+            toggleBtn.classList.remove('hidden');
+            toggleBtn.setAttribute('aria-expanded', 'true');
+            toggleBtn.setAttribute('title', '隐藏天气');
         }
     }
-    
+
     /**
-     * 初始化天气小部件的显示/隐藏功能
+     * 初始化天气切换按钮的事件监听
      */
     function initToggleButton() {
-        const toggleBtn = document.querySelector('.weather-toggle-btn');
-        const weatherContainer = document.querySelector(config.containerSelector);
+        const toggleBtn = document.querySelector(config.toggleBtnSelector);
+        const container = document.querySelector(config.containerSelector);
         
-        if (!toggleBtn || !weatherContainer) return;
+        if (!toggleBtn || !container) return;
         
-        // 检查本地存储中的显示状态
-        const isHidden = localStorage.getItem('weatherWidgetHidden') === 'true';
-        
-        // 初始状态
-        if (isHidden) {
-            weatherContainer.classList.add('hidden');
-            toggleBtn.classList.add('hidden');
-        }
-        
-        // 点击切换按钮时的行为
-        toggleBtn.addEventListener('click', () => {
-            weatherContainer.classList.toggle('hidden');
-            toggleBtn.classList.toggle('hidden');
+        toggleBtn.addEventListener('click', function() {
+            const isCurrentlyHidden = container.classList.contains('hidden');
             
-            // 保存状态到本地存储
-            const isCurrentlyHidden = weatherContainer.classList.contains('hidden');
-            localStorage.setItem('weatherWidgetHidden', isCurrentlyHidden.toString());
+            if (isCurrentlyHidden) {
+                // 显示小部件
+                container.classList.remove('hidden');
+                toggleBtn.classList.remove('hidden');
+                toggleBtn.setAttribute('aria-expanded', 'true');
+                toggleBtn.setAttribute('title', '隐藏天气');
+                localStorage.setItem(config.localStorageKeys.widgetState, 'visible');
+            } else {
+                // 隐藏小部件
+                container.classList.add('hidden');
+                toggleBtn.classList.add('hidden');
+                toggleBtn.setAttribute('aria-expanded', 'false');
+                toggleBtn.setAttribute('title', '显示天气');
+                localStorage.setItem(config.localStorageKeys.widgetState, 'hidden');
+            }
         });
     }
 
-    // Initialize when DOM is ready
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', init);
-    } else {
-        init();
+    /**
+     * Main initialization function
+     */
+    function init() {
+        window.addEventListener('DOMContentLoaded', function() {
+            // 初始化小部件可见性
+            initWidgetVisibility();
+            
+            // 初始化切换按钮
+            initToggleButton();
+            
+            // 初始化天气小部件
+            initWeatherWidget();
+            
+            // 设置定时刷新
+            setInterval(function() {
+                // 只有在小部件可见时才刷新
+                const container = document.querySelector(config.containerSelector);
+                if (container && !container.classList.contains('hidden')) {
+                    if (shouldRefreshWeather()) {
+                        initWeatherWidget(true);
+                    }
+                }
+            }, config.refreshInterval);
+        });
     }
+
+    // 启动应用
+    init();
 })(); 

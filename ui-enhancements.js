@@ -296,6 +296,11 @@ function setFeaturedArticle() {
 
 // 自定义鼠标跟随效果
 function initCustomCursor() {
+    // 检查是否已经存在鼠标跟随元素，如果存在则不再创建
+    if (document.querySelector('.custom-cursor')) {
+        return;
+    }
+    
     const cursor = document.createElement('div');
     cursor.classList.add('custom-cursor');
     document.body.appendChild(cursor);

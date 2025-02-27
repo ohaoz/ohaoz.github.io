@@ -76,21 +76,60 @@
 
     // 创建樱花飘落效果
     function createSakuraEffect() {
+        // 检查是否为移动设备，如果是则不创建樱花效果
+        if (window.innerWidth <= 768 || document.body.classList.contains('is-mobile')) {
+            console.log('移动设备上禁用樱花效果以节省内存');
+            return;
+        }
+        
         const sakuraContainer = document.createElement('div');
         sakuraContainer.className = 'sakura-container';
         document.body.appendChild(sakuraContainer);
         
-        // 创建20个樱花
-        for (let i = 0; i < 20; i++) {
+        // 减少初始樱花数量从20个到10个
+        for (let i = 0; i < 10; i++) {
             createSakura(sakuraContainer);
         }
         
-        // 每隔3秒添加一个新樱花
-        setInterval(() => {
-            if (document.querySelectorAll('.sakura').length < 30) {
+        // 减少樱花生成频率和最大数量
+        // 从每3秒一个改为每5秒一个，最大数量从30个减少到15个
+        let sakuraInterval = setInterval(() => {
+            if (document.querySelectorAll('.sakura').length < 15) {
                 createSakura(sakuraContainer);
             }
-        }, 3000);
+            
+            // 如果用户切换到了其他标签页，暂停创建新樱花
+            if (document.hidden) {
+                clearInterval(sakuraInterval);
+                // 当用户回到页面时重新启动
+                document.addEventListener('visibilitychange', function onVisibilityChange() {
+                    if (!document.hidden) {
+                        sakuraInterval = setInterval(() => {
+                            if (document.querySelectorAll('.sakura').length < 15) {
+                                createSakura(sakuraContainer);
+                            }
+                        }, 5000);
+                        document.removeEventListener('visibilitychange', onVisibilityChange);
+                    }
+                });
+            }
+        }, 5000);
+        
+        // 添加页面可见性变化监听，在页面不可见时清除所有樱花以节省内存
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                // 页面不可见时，移除所有樱花
+                const sakuras = document.querySelectorAll('.sakura');
+                sakuras.forEach(sakura => sakura.remove());
+            } else {
+                // 页面重新可见时，重新创建几个樱花
+                if (document.querySelectorAll('.sakura').length === 0) {
+                    for (let i = 0; i < 5; i++) {
+                        createSakura(sakuraContainer);
+                    }
+                }
+            }
+        });
     }
     
     // 创建单个樱花
@@ -99,7 +138,7 @@
         sakura.className = 'sakura';
         
         // 随机大小
-        const size = Math.random() * 15 + 15;
+        const size = Math.random() * 15 + 10; // 稍微减小樱花大小
         sakura.style.width = `${size}px`;
         sakura.style.height = `${size}px`;
         
@@ -110,19 +149,21 @@
         sakura.style.opacity = Math.random() * 0.6 + 0.4;
         
         // 随机动画持续时间
-        const fallDuration = Math.random() * 10 + 10;
-        const shakeDuration = Math.random() * 5 + 3;
+        const fallDuration = Math.random() * 8 + 8; // 减少最大动画时间
+        const shakeDuration = Math.random() * 4 + 2;
         sakura.style.animationDuration = `${fallDuration}s, ${shakeDuration}s`;
         
         // 随机延迟
-        const delay = Math.random() * 15;
+        const delay = Math.random() * 10; // 减少最大延迟时间
         sakura.style.animationDelay = `${delay}s, ${delay}s`;
         
         container.appendChild(sakura);
         
         // 动画结束后移除
         setTimeout(() => {
-            sakura.remove();
+            if (sakura.parentNode) {
+                sakura.remove();
+            }
         }, (fallDuration + delay) * 1000);
     }
 
@@ -509,21 +550,60 @@
 
     // 添加懒加载功能
     function initLazyLoading() {
-        const lazyImages = document.querySelectorAll('img[data-src]');
-        const lazyImageObserver = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const img = entry.target;
+        // 使用IntersectionObserver API进行懒加载
+        if ('IntersectionObserver' in window) {
+            const lazyImages = document.querySelectorAll('img[data-src]');
+            
+            // 使用更高的阈值和更少的回调频率
+            const lazyImageObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        
+                        // 创建新图像对象预加载
+                        const tempImage = new Image();
+                        tempImage.onload = function() {
+                            img.src = img.dataset.src;
+                            img.removeAttribute('data-src');
+                            img.classList.add('fade-in');
+                        };
+                        tempImage.onerror = function() {
+                            // 加载失败时使用占位图
+                            img.src = 'placeholder.jpg';
+                            img.removeAttribute('data-src');
+                        };
+                        tempImage.src = img.dataset.src;
+                        
+                        observer.unobserve(img);
+                    }
+                });
+            }, {
+                rootMargin: '200px 0px', // 提前200px开始加载
+                threshold: 0.1 // 只需要10%可见就开始加载
+            });
+            
+            lazyImages.forEach(image => {
+                lazyImageObserver.observe(image);
+            });
+        } else {
+            // 对于不支持IntersectionObserver的浏览器，使用简单的延迟加载
+            setTimeout(() => {
+                const lazyImages = document.querySelectorAll('img[data-src]');
+                lazyImages.forEach(img => {
                     img.src = img.dataset.src;
                     img.removeAttribute('data-src');
-                    img.classList.add('fade-in');
-                    observer.unobserve(img);
-                }
-            });
-        });
+                });
+            }, 1000);
+        }
         
-        lazyImages.forEach(image => {
-            lazyImageObserver.observe(image);
+        // 为所有图片添加loading="lazy"属性
+        document.querySelectorAll('img').forEach(img => {
+            if (!img.hasAttribute('loading')) {
+                img.setAttribute('loading', 'lazy');
+            }
+            if (!img.hasAttribute('decoding')) {
+                img.setAttribute('decoding', 'async');
+            }
         });
     }
 
@@ -570,24 +650,79 @@
             return;
         }
         
+        // 检查是否已经存在鼠标跟随元素
+        if (document.querySelector('.custom-cursor')) {
+            // 如果已经存在，获取现有的cursor元素并使用它
+            const cursor = document.querySelector('.custom-cursor');
+            
+            // 使用节流函数减少mousemove事件处理频率
+            let lastExecution = 0;
+            const throttleDelay = 10; // 10ms节流
+            
+            document.addEventListener('mousemove', (e) => {
+                const now = Date.now();
+                if (now - lastExecution < throttleDelay) return;
+                
+                lastExecution = now;
+                
+                // 使用transform代替left/top，提高性能
+                cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+                
+                // 检查鼠标是否在文章卡片上，如果是则调整光标样式
+                const hoveredCard = document.elementFromPoint(e.clientX, e.clientY);
+                const isOverCard = hoveredCard && (
+                    hoveredCard.classList.contains('article-card') || 
+                    hoveredCard.closest('.article-card')
+                );
+                
+                if (isOverCard) {
+                    // 在文章卡片上时稍微调整光标样式
+                    cursor.style.mixBlendMode = 'normal';
+                    cursor.style.opacity = '0.4';
+                } else {
+                    // 恢复默认样式
+                    cursor.style.mixBlendMode = 'difference';
+                    cursor.style.opacity = '0.6';
+                }
+            });
+            
+            return;
+        }
+        
+        // 如果不存在，创建新的cursor元素
         const cursor = document.createElement('div');
         cursor.className = 'custom-cursor';
         document.body.appendChild(cursor);
         
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.left = `${e.clientX}px`;
-            cursor.style.top = `${e.clientY}px`;
-        });
+        // 使用节流函数减少mousemove事件处理频率
+        let lastExecution = 0;
+        const throttleDelay = 10; // 10ms节流
         
-        // 鼠标悬停在链接上时的效果
-        document.querySelectorAll('a, button').forEach(el => {
-            el.addEventListener('mouseenter', () => {
-                cursor.classList.add('cursor-expanded');
-            });
+        document.addEventListener('mousemove', (e) => {
+            const now = Date.now();
+            if (now - lastExecution < throttleDelay) return;
             
-            el.addEventListener('mouseleave', () => {
-                cursor.classList.remove('cursor-expanded');
-            });
+            lastExecution = now;
+            
+            // 使用transform代替left/top，提高性能
+            cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+            
+            // 检查鼠标是否在文章卡片上，如果是则调整光标样式
+            const hoveredCard = document.elementFromPoint(e.clientX, e.clientY);
+            const isOverCard = hoveredCard && (
+                hoveredCard.classList.contains('article-card') || 
+                hoveredCard.closest('.article-card')
+            );
+            
+            if (isOverCard) {
+                // 在文章卡片上时稍微调整光标样式
+                cursor.style.mixBlendMode = 'normal';
+                cursor.style.opacity = '0.4';
+            } else {
+                // 恢复默认样式
+                cursor.style.mixBlendMode = 'difference';
+                cursor.style.opacity = '0.6';
+            }
         });
     }
 

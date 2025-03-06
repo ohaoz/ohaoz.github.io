@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>搜索结果 - ZYH的二次元知识库</title>
+    <meta name="description" content="ZYH的二次元风格技术博客搜索结果">
+    <meta name="keywords" content="二次元,技术博客,搜索,编程,全栈开发">
+    <meta name="author" content="ZYH">
+    <meta name="robots" content="noindex, follow">
+    <meta property="og:title" content="搜索结果 - ZYH的二次元知识库">
+    <meta property="og:description" content="搜索ZYH的二次元知识库">
+    <meta property="og:type" content="website">
+    <!-- 存储主题颜色值，供脚本使用 -->
+    <meta data-site-theme-color="#FF6B9A">
+    <!-- 移动设备浏览器兼容性标签 -->
+    <meta name="msapplication-navbutton-color" content="#FF6B9A">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#FF6B9A">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="animation.css">
+    <!-- Weather Widget CSS -->
+    <link rel="stylesheet" href="weather-widget.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="script.js" defer></script>
+    <!-- UI Enhancement Script -->
+    <script src="ui-enhancements.js" defer></script>
+    <!-- Weather Widget Script -->
+    <script src="weather-widget.js" defer></script>
+    <!-- 搜索结果脚本 -->
+    <script src="search.js" defer></script>
+</head>
+<body>
+    <!-- 可爱的预加载动画会在JS中动态创建-->
+    <div class="preloader"></div>
+    
+    <!-- 天气小部件容器-->
+    <div class="weather-widget-container"></div>
+    
+    <!-- 天气切换按钮 -->
+    <button class="weather-toggle-btn" aria-label="显示/隐藏天气">
+        <i class="fas fa-cloud-sun"></i>
+    </button>
+    
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="logo">
+                <a href="/">🌸 Kawaii Blog</a>
+            </div>
+            <div class="nav-toggle-container">
+                <div class="search-container">
+                    <form class="search-form" action="/search" method="get">
+                        <input type="text" class="search-input" placeholder="搜索文章..." aria-label="搜索文章" id="search-query">
+                        <button type="submit" class="search-button" aria-label="搜索">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </form>
+                </div>
+                <button class="theme-toggle" aria-label="切换主题模式">
+                    <i class="fas fa-moon"></i>
+                    <span>暗色模式</span>
+                </button>
+            </div>
+            <div class="nav-links">
+                <a href="/"><i class="fas fa-home"></i> 首页</a>
+                <a href="/articles"><i class="fas fa-book"></i> 文章</a>
+                <a href="/projects"><i class="fas fa-project-diagram"></i> 项目</a>
+                <a href="/about"><i class="fas fa-user"></i> 关于我</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <section class="search-results-header animate-on-scroll">
+            <h1>🔍 搜索结果 🔎</h1>
+            <p>关于 "<span id="search-term">...</span>" 的搜索结果</p>
+        </section>
+        
+        <div class="search-filters">
+            <button class="filter-btn active" data-filter="all">全部</button>
+            <button class="filter-btn" data-filter="frontend">前端开发</button>
+            <button class="filter-btn" data-filter="backend">后端开发</button>
+            <button class="filter-btn" data-filter="algorithm">算法</button>
+            <button class="filter-btn" data-filter="system">系统设计</button>
+            <button class="filter-btn" data-filter="ai">人工智能</button>
+        </div>
+
+        <div class="search-results-container">
+            <!-- 搜索结果将在这里动态生成-->
+            <div class="search-loading">
+                <div class="loading-spinner"></div>
+                <p>正在搜索中...</p>
+            </div>
+            
+            <div class="search-results-list hidden">
+                <!-- 搜索结果将通过JavaScript动态插入-->
+            </div>
+            
+            <div class="no-results hidden">
+                <div class="no-results-icon">
+                    <i class="fas fa-search"></i>
+                </div>
+                <h2>没有找到相关结果</h2>
+                <p>尝试使用不同的关键词或浏览下面的热门主题</p>
+            </div>
+        </div>
+        
+        <h2 class="section-title animate-on-scroll">✨ 推荐阅读</h2>
+        
+        <div class="article-list">
+            <article class="article-card animate-on-scroll">
+                <div class="article-card-image">
+                    <img src="https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=500&auto=format&fit=crop&q=60" alt="算法复杂度" loading="lazy">
+                </div>
+                <h2>深入理解算法复杂度</h2>
+                <p>探讨时间复杂度和空间复杂度的概念，以及它们在实际编程中的应用。本文将通过实例深入分析不同算法的性能特点...</p>
+                <div class="article-meta">
+                    <span><i class="far fa-clock"></i> 2025-01-18</span>
+                    <span><i class="far fa-comment"></i> 8 评论</span>
+                </div>
+            </article>
+
+            <article class="article-card animate-on-scroll">
+                <div class="article-card-image">
+                    <img src="https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=500&auto=format&fit=crop&q=60" alt="前端框架对比" loading="lazy">
+                </div>
+                <h2>2025年前端框架对比</h2>
+                <p>React、Vue、Angular、Svelte等主流前端框架的最新特性和性能对比。哪一个框架最适合你的项目？本文将给你答案...</p>
+                <div class="article-meta">
+                    <span><i class="far fa-clock"></i> 2025-01-15</span>
+                    <span><i class="far fa-comment"></i> 12 评论</span>
+                </div>
+            </article>
+
+            <article class="article-card animate-on-scroll">
+                <div class="article-card-image">
+                    <img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=500&auto=format&fit=crop&q=60" alt="云原生架构" loading="lazy">
+                </div>
+                <h2>云原生架构实践指南</h2>
+                <p>从微服务到Kubernetes，探索云原生架构的核心概念和最佳实践。如何设计可扩展、高可用的现代应用架构...</p>
+                <div class="article-meta">
+                    <span><i class="far fa-clock"></i> 2025-01-10</span>
+                    <span><i class="far fa-comment"></i> 5 评论</span>
+                </div>
+            </article>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>关于博客</h3>
+                <p>这是一个分享技术知识、编程经验和学习心得的个人博客。希望能帮助到每一位热爱技术的朋友！</p>
+                <div class="social-links">
+                    <a href="#" title="GitHub"><i class="fab fa-github" aria-hidden="true"></i><span class="sr-only">GitHub</span></a>
+                    <a href="#" title="Twitter"><i class="fab fa-twitter" aria-hidden="true"></i><span class="sr-only">Twitter</span></a>
+                    <a href="#" title="LinkedIn"><i class="fab fa-linkedin" aria-hidden="true"></i><span class="sr-only">LinkedIn</span></a>
+                    <a href="#" title="微信"><i class="fab fa-weixin" aria-hidden="true"></i><span class="sr-only">微信</span></a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h3>快速链接</h3>
+                <ul>
+                    <li><a href="#">首页</a></li>
+                    <li><a href="#">文章归档</a></li>
+                    <li><a href="#">关于我</a></li>
+                    <li><a href="#">联系方式</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>热门分类</h3>
+                <ul>
+                    <li><a href="#">前端开发</a></li>
+                    <li><a href="#">后端技术</a></li>
+                    <li><a href="#">算法学习</a></li>
+                    <li><a href="#">系统设计</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2025 ZYH的二次元知识库 | 用❤️制作</p>
+        </div>
+    </footer>
+</body>
+</html>

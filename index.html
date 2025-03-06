@@ -25,8 +25,7 @@
     <script src="weather-widget.js" defer></script>
 </head>
 <body>
-    <!-- 可爱的预加载动画会在JS中动态创建 -->
-    <div class="preloader"></div>
+    <!-- 移除了预加载动画 -->
     
     <!-- 天气小部件容器 -->
     <div class="weather-widget-container"></div>
@@ -37,21 +36,29 @@
     </button>
     
     <nav class="navbar">
-        <div class="nav-content">
+        <div class="nav-content" data-component-name="<div />">
             <div class="logo">
                 <a href="/">✨ Kawaii Blog</a>
             </div>
             <div class="nav-toggle-container">
                 <button class="theme-toggle" aria-label="切换主题模式">
                     <i class="fas fa-moon"></i>
-                    <span>暗色模式</span>
+                    <span class="theme-text">暗色模式</span>
                 </button>
             </div>
+            <div class="search-container">
+                <div class="magic-search-box">
+                    <input type="text" placeholder="搜索内容..." aria-label="搜索">
+                    <button type="button" aria-label="搜索按钮">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
             <div class="nav-links">
-                <a href="/"><i class="fas fa-home"></i> 首页</a>
-                <a href="/articles"><i class="fas fa-book"></i> 文章</a>
-                <a href="/projects"><i class="fas fa-project-diagram"></i> 项目</a>
-                <a href="/about"><i class="fas fa-user"></i> 关于我</a>
+                <a href="/" class="ripple" title="首页"><i class="fas fa-home"></i> 首页</a>
+                <a href="/articles" class="ripple" title="文章"><i class="fas fa-book"></i> 文章</a>
+                <a href="/projects" class="ripple" title="项目"><i class="fas fa-project-diagram"></i> 项目</a>
+                <a href="/about" class="ripple" title="关于我"><i class="fas fa-user"></i> 关于我</a>
             </div>
         </div>
     </nav>
@@ -63,12 +70,12 @@
         </section>
         
         <nav class="category-nav">
-            <a href="/category/frontend"><i class="fas fa-code"></i> 前端开发</a>
-            <a href="/category/backend"><i class="fas fa-server"></i> 后端开发</a>
-            <a href="/category/algorithm"><i class="fas fa-brain"></i> 算法</a>
-            <a href="/category/system"><i class="fas fa-network-wired"></i> 系统设计</a>
-            <a href="/category/ai"><i class="fas fa-robot"></i> 人工智能</a>
-            <a href="/category/tools"><i class="fas fa-tools"></i> 开发工具</a>
+            <a href="/category/frontend" title="前端开发"><i class="fas fa-code"></i> 前端开发</a>
+            <a href="/category/backend" title="后端开发"><i class="fas fa-server"></i> 后端开发</a>
+            <a href="/category/algorithm" title="算法"><i class="fas fa-brain"></i> 算法</a>
+            <a href="/category/system" title="系统设计"><i class="fas fa-network-wired"></i> 系统设计</a>
+            <a href="/category/ai" title="人工智能"><i class="fas fa-robot"></i> 人工智能</a>
+            <a href="/category/tools" title="开发工具"><i class="fas fa-tools"></i> 开发工具</a>
         </nav>
 
         <h2 class="section-title animate-on-scroll">✨ 最新文章</h2>
@@ -167,30 +174,30 @@
                 <h3>关于博客</h3>
                 <p>这是一个分享技术知识、编程经验和学习心得的个人博客。希望能帮助到每一位热爱技术的朋友。</p>
                 <div class="social-links">
-                    <a href="#"><i class="fab fa-github"></i></a>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="#"><i class="fab fa-linkedin"></i></a>
-                    <a href="#"><i class="fab fa-weixin"></i></a>
+                    <a href="#" title="GitHub Profile"><i class="fab fa-github"></i></a>
+                    <a href="#" title="Twitter Profile"><i class="fab fa-twitter"></i></a>
+                    <a href="#" title="LinkedIn Profile"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" title="WeChat Contact"><i class="fab fa-weixin"></i></a>
                 </div>
             </div>
             
             <div class="footer-section">
                 <h3>快速链接</h3>
                 <ul>
-                    <li><a href="#">首页</a></li>
-                    <li><a href="#">文章归档</a></li>
-                    <li><a href="#">关于我</a></li>
-                    <li><a href="#">联系方式</a></li>
+                    <li><a href="#" title="首页">首页</a></li>
+                    <li><a href="#" title="文章归档">文章归档</a></li>
+                    <li><a href="#" title="关于我">关于我</a></li>
+                    <li><a href="#" title="联系方式">联系方式</a></li>
                 </ul>
             </div>
             
             <div class="footer-section">
                 <h3>热门分类</h3>
                 <ul>
-                    <li><a href="#">前端开发</a></li>
-                    <li><a href="#">后端技术</a></li>
-                    <li><a href="#">算法学习</a></li>
-                    <li><a href="#">系统设计</a></li>
+                    <li><a href="#" title="前端开发">前端开发</a></li>
+                    <li><a href="#" title="后端技术">后端技术</a></li>
+                    <li><a href="#" title="算法学习">算法学习</a></li>
+                    <li><a href="#" title="系统设计">系统设计</a></li>
                 </ul>
             </div>
         </div>

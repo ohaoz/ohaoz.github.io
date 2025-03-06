@@ -176,7 +176,103 @@ window.addEventListener('load', () => {
     document.body.classList.add('loaded');
 });
 
+// 魔法搜索框功能
+const magicSearchBox = document.querySelector('.magic-search-box input');
+const magicSearchButton = document.querySelector('.magic-search-box button');
+const magicSearchContainer = document.querySelector('.magic-search-box');
+
+if (magicSearchBox && magicSearchButton) {
+    // 初始化搜索框
+    magicSearchContainer.classList.add('initialized');
+    
+    // 点击搜索按钮时触发搜索
+    magicSearchButton.addEventListener('click', () => {
+        const searchTerm = magicSearchBox.value.trim();
+        if (searchTerm) {
+            performSearch(searchTerm);
+        }
+    });
+    
+    // 按下回车键时触发搜索
+    magicSearchBox.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            const searchTerm = magicSearchBox.value.trim();
+            if (searchTerm) {
+                performSearch(searchTerm);
+            }
+        }
+    });
+    
+    // 获得焦点时添加彩色光环效果
+    magicSearchBox.addEventListener('focus', () => {
+        // 添加彩色粒子效果
+        createGlowEffect(magicSearchContainer);
+    });
+    
+    // 鼠标悬停效果
+    magicSearchContainer.addEventListener('mouseenter', () => {
+        magicSearchContainer.classList.add('hover');
+    });
+    
+    magicSearchContainer.addEventListener('mouseleave', () => {
+        magicSearchContainer.classList.remove('hover');
+    });
+}
+
+// 执行搜索
+function performSearch(searchTerm) {
+    console.log('正在搜索:', searchTerm);
+    // 这里可以实现实际的搜索功能，跳转到搜索结果页面或调用API
+    window.location.href = `/search.html?q=${encodeURIComponent(searchTerm)}`;
+}
+
+// 创建彩色光效
+function createGlowEffect(element) {
+    // 添加彩色光效粒子
+    for (let i = 0; i < 8; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'search-particle';
+        
+        // 随机选择粒子颜色
+        const colors = [
+            'rgba(255, 107, 154, 0.8)', // 粉色
+            'rgba(107, 154, 255, 0.8)', // 蓝色
+            'rgba(157, 107, 255, 0.8)', // 紫色
+            'rgba(107, 255, 154, 0.8)', // 绿色
+            'rgba(255, 220, 107, 0.8)'  // 黄色
+        ];
+        
+        particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        particle.style.left = `${Math.random() * 100}%`;
+        particle.style.top = `${Math.random() * 100}%`;
+        particle.style.width = `${Math.random() * 12 + 5}px`;
+        particle.style.height = particle.style.width;
+        particle.style.animationDuration = `${Math.random() * 2 + 1}s`;
+        
+        // 添加粒子运动效果
+        particle.style.setProperty('--tx', `${(Math.random() - 0.5) * 100}px`);
+        particle.style.setProperty('--ty', `${(Math.random() - 0.5) * 100}px`);
+        
+        element.appendChild(particle);
+        
+        // 消除粒子
+        setTimeout(() => {
+            if (particle.parentNode === element) {
+                element.removeChild(particle);
+            }
+        }, 3000);
+    }
+}
+
 // 初始化所有功能
 document.addEventListener('DOMContentLoaded', () => {
+    // 初始化进度条
     initProgressBar();
+    
+    // 初始化魔法搜索框
+    const magicSearchBox = document.querySelector('.magic-search-box');
+    if (magicSearchBox) {
+        // 添加初始化样式
+        magicSearchBox.classList.add('initialized');
+    }
 });

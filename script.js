@@ -4,20 +4,16 @@
 
     // 存储DOM元素的引用
     const elements = {
-        preloader: null,
-        progressElement: null,
-        progressBar: null,
         navbar: null,
         articleCards: null,
         themeToggle: null,
         categoryLinks: null,
-        footerLinks: null
+        footerLinks: null,
+        progressBar: null
     };
 
     // 初始化相关元素
     function initializeElements() {
-        elements.preloader = document.querySelector('.preloader');
-        updatePreloader(); // 更新预加载动画
         elements.progressBar = document.querySelector('.progress-bar');
         elements.navbar = document.querySelector('.navbar');
         elements.articleCards = document.querySelectorAll('.article-card');
@@ -42,36 +38,12 @@
                 document.body.classList.remove('is-mobile');
             }
         });
-    }
 
-    // 模拟加载进度
-    function simulateLoading() {
-        let progress = 0;
-        const interval = setInterval(() => {
-            progress += Math.random() * 12 + 3;
-            if (progress > 100) {
-                progress = 100;
-                clearInterval(interval);
-                setTimeout(showContent, 500);
-            }
-            if (elements.progressElement) {
-                elements.progressElement.textContent = Math.floor(progress);
-            }
-        }, 200);
-    }
-
-    // 显示主要内容
-    function showContent() {
-        if (elements.preloader) {
-            elements.preloader.classList.add('fade-out');
-            setTimeout(() => {
-                elements.preloader.style.display = 'none';
-                document.body.style.overflow = 'visible';
-                initializeScrollEffects();
-                addFadeInAnimations();
-                createSakuraEffect(); // 添加樱花效果
-            }, 500);
-        }
+        // 直接初始化效果，不需要等待预加载
+        document.body.style.overflow = 'visible';
+        initializeScrollEffects();
+        addFadeInAnimations();
+        createSakuraEffect(); // 添加樱花效果
     }
 
     // 创建樱花飘落效果
@@ -165,65 +137,6 @@
                 sakura.remove();
             }
         }, (fallDuration + delay) * 1000);
-    }
-
-    // 修改预加载动画为可爱的二次元风格
-    function updatePreloader() {
-        const preloader = elements.preloader;
-        if (!preloader) return;
-        
-        // 移除原有的蓝屏内容
-        const bsodContainer = preloader.querySelector('.bsod-container');
-        if (bsodContainer) {
-            bsodContainer.remove();
-        }
-        
-        // 创建可爱的加载动画
-        const kawaiiLoader = document.createElement('div');
-        kawaiiLoader.className = 'kawaii-loader';
-        
-        const face = document.createElement('div');
-        face.className = 'kawaii-face';
-        
-        const leftEye = document.createElement('div');
-        leftEye.className = 'kawaii-eye left';
-        
-        const rightEye = document.createElement('div');
-        rightEye.className = 'kawaii-eye right';
-        
-        const mouth = document.createElement('div');
-        mouth.className = 'kawaii-mouth';
-        
-        const leftBlush = document.createElement('div');
-        leftBlush.className = 'kawaii-blush left';
-        
-        const rightBlush = document.createElement('div');
-        rightBlush.className = 'kawaii-blush right';
-        
-        face.appendChild(leftEye);
-        face.appendChild(rightEye);
-        face.appendChild(mouth);
-        face.appendChild(leftBlush);
-        face.appendChild(rightBlush);
-        
-        kawaiiLoader.appendChild(face);
-        
-        const loadingText = document.createElement('div');
-        loadingText.style.textAlign = 'center';
-        loadingText.style.marginTop = '20px';
-        loadingText.style.color = '#FF6B9A';
-        loadingText.style.fontWeight = 'bold';
-        loadingText.style.fontSize = '1.2rem';
-        loadingText.innerHTML = '加载中... <span class="progress">0</span>%';
-        
-        kawaiiLoader.appendChild(loadingText);
-        
-        // 更新进度元素引用
-        elements.progressElement = loadingText.querySelector('.progress');
-        
-        // 添加到预加载器
-        preloader.style.background = '#FFEEF5';
-        preloader.appendChild(kawaiiLoader);
     }
 
     // 初始化滚动效果，包括更新进度条和导航栏显示/隐藏
@@ -601,6 +514,7 @@
             if (!img.hasAttribute('loading')) {
                 img.setAttribute('loading', 'lazy');
             }
+            
             if (!img.hasAttribute('decoding')) {
                 img.setAttribute('decoding', 'async');
             }
@@ -618,7 +532,6 @@
         initializeElements();
         // 确保尽早创建返回顶部按钮
         createScrollToTopButton();
-        simulateLoading();
         initializeDarkMode();
         initializeSmoothScroll();
         initializeCardEffects();

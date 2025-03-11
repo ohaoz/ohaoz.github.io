@@ -91,12 +91,80 @@
                 return JSON.parse(cachedLocation);
             }
             
+            // 优先使用浏览器地理位置API
+            if (navigator.geolocation) {
+                try {
+                    // 使用Promise包装地理位置API调用
+                    const position = await new Promise((resolve, reject) => {
+                        navigator.geolocation.getCurrentPosition(
+                            resolve,
+                            reject,
+                            { 
+                                enableHighAccuracy: true, 
+                                timeout: 5000, 
+                                maximumAge: 0 
+                            }
+                        );
+                    });
+                    
+                    // 使用获取到的经纬度查询城市名
+                    const reverseGeoUrl = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${position.coords.latitude}&lon=${position.coords.longitude}&zoom=10&addressdetails=1`;
+                    const cityResponse = await fetch(reverseGeoUrl);
+                    const cityData = await cityResponse.json();
+                    
+                    // 提取城市和国家信息
+                    const city = cityData.address.city || cityData.address.town || cityData.address.village || cityData.address.county || '未知城市';
+                    const country = cityData.address.country || '未知国家';
+                    
+                    // 构建位置对象
+                    const location = {
+                        latitude: position.coords.latitude,
+                        longitude: position.coords.longitude,
+                        city: city,
+                        country: country
+                    };
+                    
+                    // 保存位置信息到本地存储
+                    localStorage.setItem(config.localStorageKeys.userLocation, JSON.stringify(location));
+                    
+                    return location;
+                } catch (geoError) {
+                    console.error('浏览器地理位置获取失败:', geoError);
+                    // 如果浏览器地理位置获取失败，回退到IP定位
+                }
+            }
+            
+            // 回退到IP定位
             // 设置超时以避免长时间等待
             const controller = new AbortController();
             const timeoutId = setTimeout(() => controller.abort(), 5000);
             
-            // 使用默认位置，减少API调用
-            const location = config.defaultLocation;
+            // 首先获取用户IP
+            const ipResponse = await fetch(config.ipApiUrl, { signal: controller.signal });
+            if (!ipResponse.ok) {
+                throw new Error('Failed to get IP address');
+            }
+            
+            const ipData = await ipResponse.json();
+            const userIp = ipData.ip;
+            
+            // 使用IP获取地理位置
+            const geoUrl = `${config.ipGeoUrl}&ip=${userIp}`;
+            const geoResponse = await fetch(geoUrl, { signal: controller.signal });
+            
+            if (!geoResponse.ok) {
+                throw new Error('Failed to get location from IP');
+            }
+            
+            const geoData = await geoResponse.json();
+            
+            // 构建位置对象
+            const location = {
+                latitude: geoData.latitude,
+                longitude: geoData.longitude,
+                city: geoData.city || geoData.district || '未知城市',
+                country: geoData.country_name || '未知国家'
+            };
             
             // 保存位置信息到本地存储
             localStorage.setItem(config.localStorageKeys.userLocation, JSON.stringify(location));
@@ -210,6 +278,9 @@
                 <div class="weather-header">
                     <div class="weather-location">
                         <i class="fas fa-map-marker-alt"></i> ${location.city}
+                        <button class="location-btn" aria-label="重新定位" title="重新定位">
+                            <i class="fas fa-crosshairs"></i>
+                        </button>
                     </div>
                     <div class="weather-refresh">
                         <button class="refresh-btn" aria-label="刷新天气">
@@ -248,6 +319,15 @@
             refreshBtn.addEventListener('click', function(e) {
                 e.preventDefault();
                 initWeatherWidget(true);
+            });
+        }
+        
+        // 添加重新定位按钮事件
+        const locationBtn = weatherContainer.querySelector('.location-btn');
+        if (locationBtn) {
+            locationBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                refreshLocation();
             });
         }
     }
@@ -303,6 +383,13 @@
             }
             
             let location, weather;
+            
+            // 如果强制刷新，清除缓存的位置数据
+            if (forceRefresh) {
+                localStorage.removeItem(config.localStorageKeys.userLocation);
+                localStorage.removeItem(config.localStorageKeys.weatherData);
+                localStorage.removeItem(config.localStorageKeys.lastUpdate);
+            }
             
             // 检查是否需要刷新数据
             if (!forceRefresh && !shouldRefreshWeather()) {
@@ -468,6 +555,18 @@
             
             scheduleRefresh();
         });
+    }
+
+    /**
+     * 刷新用户地理位置
+     * 清除缓存并重新获取位置
+     */
+    function refreshLocation() {
+        // 清除位置缓存
+        localStorage.removeItem(config.localStorageKeys.userLocation);
+        console.log("地理位置缓存已清除，重新获取位置...");
+        // 重新加载天气组件
+        initWeatherWidget(true);
     }
 
     // 启动应用

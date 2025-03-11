@@ -92,18 +92,43 @@
 }
 
 .weather-location {
-    font-size: 0.9rem;
-    font-weight: 600;
     display: flex;
     align-items: center;
-    gap: 6px;
-    letter-spacing: 0.2px;
+    font-weight: 500;
+    font-size: 0.95rem;
+    color: var(--text-color, #444);
+    position: relative;
+    padding-left: 5px;
 }
 
+/* 位置图标 */
 .weather-location i {
+    margin-right: 5px;
     color: var(--primary-color, #FF6B9A);
 }
 
+/* 重新定位按钮 */
+.location-btn {
+    background: transparent;
+    border: none;
+    color: var(--primary-color, #FF6B9A);
+    font-size: 0.9rem;
+    cursor: pointer;
+    padding: 2px 5px;
+    margin-left: 5px;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.location-btn:hover {
+    background-color: rgba(255, 107, 154, 0.1);
+    transform: scale(1.1);
+}
+
+/* 刷新按钮样式 */
 .refresh-btn {
     background: none;
     border: none;

@@ -569,6 +569,9 @@
         
         // 定期检查返回顶部按钮是否正确附加到body
         ensureButtonAttachedToBody();
+        
+        // 初始化返回顶部按钮位置调整逻辑
+        initializeScrollToTopPositioning();
     });
     
     // 添加鼠标跟随效果
@@ -735,12 +738,19 @@
             });
         });
         
-        // 检测返回顶部按钮的位置，避免遮挡看板娘
+        // 添加FastClick以减少移动端点击延迟
+        if (typeof FastClick !== 'undefined') {
+            FastClick.attach(document.body);
+        }
+    }
+
+    // 初始化返回顶部按钮位置（避开Live2D模型）
+    function initializeScrollToTopPositioning() {
         const scrollBtn = document.querySelector('.scroll-top-btn');
-        const waifu = document.querySelector('#waifu');
+        const waifu = document.querySelector('#waifu'); // Live2D model container
         
         if (scrollBtn && waifu) {
-            // 使用更强制的样式设置方式
+            // Set initial styles, important for overriding CSS if needed
             scrollBtn.style.cssText = `
                 position: fixed !important;
                 bottom: 2rem !important;
@@ -749,53 +759,35 @@
                 top: auto !important;
                 z-index: 9999 !important;
             `;
-            
-            // 监听窗口大小变化，动态调整按钮位置
-            window.addEventListener('resize', () => {
+
+            const adjustPosition = () => {
                 if (window.innerWidth <= 768) {
-                    // 移动端位置
-                    scrollBtn.style.cssText = `
-                        position: fixed !important;
-                        bottom: 1.5rem !important;
-                        right: 1.5rem !important;
-                        left: auto !important;
-                        top: auto !important;
-                        z-index: 9999 !important;
-                    `;
+                    // Mobile position
+                    scrollBtn.style.right = '1.5rem';
+                    scrollBtn.style.bottom = '1.5rem';
                 } else {
-                    // 检查Live2D模型是否显示
+                    // Desktop: Check if Live2D model is visible
                     const waifuDisplay = window.getComputedStyle(waifu).display;
                     if (waifuDisplay !== 'none') {
-                        // 避开Live2D
-                        scrollBtn.style.cssText = `
-                            position: fixed !important;
-                            bottom: 2rem !important;
-                            right: 320px !important;
-                            left: auto !important;
-                            top: auto !important;
-                            z-index: 9999 !important;
-                        `;
+                        // Avoid Live2D
+                        scrollBtn.style.right = '320px'; // Adjust this value based on Live2D width
+                        scrollBtn.style.bottom = '2rem';
                     } else {
-                        // 默认位置
-                        scrollBtn.style.cssText = `
-                            position: fixed !important;
-                            bottom: 2rem !important;
-                            right: 2rem !important;
-                            left: auto !important;
-                            top: auto !important;
-                            z-index: 9999 !important;
-                        `;
+                        // Default desktop position
+                        scrollBtn.style.right = '2rem';
+                        scrollBtn.style.bottom = '2rem';
                     }
                 }
-            });
+            };
             
-            // 初始化时触发一次resize事件来设置正确的位置
-            window.dispatchEvent(new Event('resize'));
-        }
-        
-        // 添加FastClick以减少移动端点击延迟
-        if (typeof FastClick !== 'undefined') {
-            FastClick.attach(document.body);
+            window.addEventListener('resize', adjustPosition);
+            
+            // Also listen for custom event that might signal waifu visibility change
+            // (e.g., if waifu is loaded/hidden dynamically by autoload.js without a resize)
+            document.addEventListener('waifuVisibilityChanged', adjustPosition);
+
+            // Initial check
+            adjustPosition();
         }
     }
 })();

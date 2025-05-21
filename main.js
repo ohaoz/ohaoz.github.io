@@ -75,45 +75,45 @@ function updateActiveNavLink() {
     });
 }
 
-// 搜索框功能
-const searchBox = document.querySelector('.search-box input');
-const searchButton = document.querySelector('.search-box button');
+// 搜索框功能 - This section is non-functional for a static site and will be commented out.
+// const searchBox = document.querySelector('.search-box input');
+// const searchButton = document.querySelector('.search-box button');
 
-const debouncedSearch = debounce(async (searchTerm) => {
-    try {
-        // 显示加载状态
-        searchButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+// const debouncedSearch = debounce(async (searchTerm) => {
+//     try {
+//         // 显示加载状态
+//         searchButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
         
-        // 模拟API调用
-        const response = await fetch(`/api/search?q=${encodeURIComponent(searchTerm)}`);
-        if (!response.ok) throw new Error('搜索失败');
+//         // 模拟API调用
+//         const response = await fetch(`/api/search?q=${encodeURIComponent(searchTerm)}`);
+//         if (!response.ok) throw new Error('搜索失败');
         
-        const results = await response.json();
-        displaySearchResults(results);
-    } catch (error) {
-        console.error('搜索错误:', error);
-        // 显示错误消息
-        const searchResults = document.querySelector('.search-results');
-        if (searchResults) {
-            searchResults.innerHTML = '<p class="error">搜索时发生错误，请稍后重试</p>';
-        }
-    } finally {
-        // 恢复搜索按钮
-        searchButton.innerHTML = '<i class="fas fa-search"></i>';
-    }
-}, 500);
+//         const results = await response.json();
+//         displaySearchResults(results);
+//     } catch (error) {
+//         console.error('搜索错误:', error);
+//         // 显示错误消息
+//         const searchResults = document.querySelector('.search-results');
+//         if (searchResults) {
+//             searchResults.innerHTML = '<p class="error">搜索时发生错误，请稍后重试</p>';
+//         }
+//     } finally {
+//         // 恢复搜索按钮
+//         searchButton.innerHTML = '<i class="fas fa-search"></i>';
+//     }
+// }, 500);
 
-searchBox.addEventListener('input', (e) => {
-    const searchTerm = e.target.value.trim();
-    if (searchTerm.length >= 2) {
-        debouncedSearch(searchTerm);
-    }
-});
+// searchBox.addEventListener('input', (e) => {
+//     const searchTerm = e.target.value.trim();
+//     if (searchTerm.length >= 2) {
+//         debouncedSearch(searchTerm);
+//     }
+// });
 
-function displaySearchResults(results) {
-    // 实现搜索结果显示逻辑
-    console.log('搜索结果:', results);
-}
+// function displaySearchResults(results) {
+//     // 实现搜索结果显示逻辑
+//     console.log('搜索结果:', results);
+// }
 
 // Newsletter表单提交
 const newsletterForm = document.querySelector('.newsletter-form');

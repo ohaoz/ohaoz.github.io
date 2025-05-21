@@ -5,52 +5,52 @@ document.addEventListener('DOMContentLoaded', function() {
     // 初始化主题切换 - 使用script.js中的实现
     // 注意：主题切换功能已移至script.js中的initializeDarkMode函数
     
-    // 初始化滚动动画
-    initScrollAnimations();
+    // 初始化滚动动画 - Moved to script.js (addFadeInAnimations, animateElementsOnScroll)
+    // initScrollAnimations();
     
-    // 初始化微交互
-    initMicroInteractions();
+    // 初始化微交互 - Moved to script.js (addRippleEffect, initializeCardEffects, initMobileEnhancements)
+    // initMicroInteractions();
     
     // 添加浮动气泡
-    createFloatingBubbles();
+    createFloatingBubbles(); // This seems unique, keeping for now.
     
-    // 创建樱花效果
-    createSakuraEffect();
+    // 创建樱花效果 - Moved to script.js (createSakuraEffect)
+    // createSakuraEffect();
     
-    // 添加滚动进度条
-    createScrollIndicator();
+    // 添加滚动进度条 - Moved to script.js (updateProgressBar) and main.js (initProgressBar)
+    // createScrollIndicator();
     
-    // 初始化返回顶部按钮
-    initScrollToTopButton();
+    // 初始化返回顶部按钮 - Moved to script.js (createScrollToTopButton)
+    // initScrollToTopButton();
     
-    // 初始化导航栏滚动行为
-    initNavbarScroll();
+    // 初始化导航栏滚动行为 - Moved to script.js (initializeScrollEffects)
+    // initNavbarScroll();
     
-    // 检测移动设备并优化
-    detectMobile();
+    // 检测移动设备并优化 - Moved to script.js (initializeElements which adds .is-mobile)
+    // detectMobile();
     
-    // 移除预加载动画
-    setTimeout(function() {
-        const preloader = document.querySelector('.preloader');
-        if (preloader) {
-            preloader.classList.add('fade-out');
-            setTimeout(() => {
-                preloader.style.display = 'none';
-            }, 500);
-        }
-    }, 1000);
+    // 移除预加载动画 - Moved to script.js (DOMContentLoaded listener with window.load for preloader)
+    // setTimeout(function() {
+    //     const preloader = document.querySelector('.preloader');
+    //     if (preloader) {
+    //         preloader.classList.add('fade-out');
+    //         setTimeout(() => {
+    //             preloader.style.display = 'none';
+    //         }, 500);
+    //     }
+    // }, 1000);
 });
 
 // 主题切换功能 - 已移至script.js
-function initThemeToggle() {
-    // 此函数已被移除，避免与script.js中的实现冲突
-    console.log('Theme toggle functionality is now handled in script.js');
-}
+// function initThemeToggle() {
+//     // 此函数已被移除，避免与script.js中的实现冲突
+//     console.log('Theme toggle functionality is now handled in script.js');
+// }
 
-// 滚动动画初始化
-function initScrollAnimations() {
+// 滚动动画初始化 - Moved to script.js (addFadeInAnimations, animateElementsOnScroll)
+// function initScrollAnimations() {
     // 获取所有需要淡入的元素
-    const fadeElements = document.querySelectorAll('.article-card, .hero, .section-title, .cta-section');
+    // const fadeElements = document.querySelectorAll('.article-card, .hero, .section-title, .cta-section');
     
     // 为每个元素添加淡入类
     fadeElements.forEach(element => {
@@ -72,15 +72,15 @@ function initScrollAnimations() {
     });
     
     // 观察所有淡入元素
-    fadeElements.forEach(element => {
-        observer.observe(element);
-    });
-}
+    // fadeElements.forEach(element => {
+    //     observer.observe(element);
+    // });
+// }
 
-// 微交互初始化
-function initMicroInteractions() {
+// 微交互初始化 - Moved to script.js (addRippleEffect, initializeCardEffects, initMobileEnhancements)
+// function initMicroInteractions() {
     // 为所有按钮和链接添加涟漪效果
-    const interactiveElements = document.querySelectorAll('button, .nav-links a, .category-nav a, .social-links a');
+    // const interactiveElements = document.querySelectorAll('button, .nav-links a, .category-nav a, .social-links a');
     
     interactiveElements.forEach(element => {
         element.addEventListener('click', createRippleEffect);
@@ -105,16 +105,16 @@ function initMicroInteractions() {
         card.addEventListener('mouseleave', function() {
             this.style.zIndex = '1';
         });
-    });
-}
+    // });
+// }
 
-// 创建涟漪效果
-function createRippleEffect(event) {
-    const button = event.currentTarget;
+// 创建涟漪效果 - Moved to script.js (addRippleEffect)
+// function createRippleEffect(event) {
+    // const button = event.currentTarget;
     
     // 创建涟漪元素
-    const ripple = document.createElement('span');
-    ripple.classList.add('btn-ripple');
+    // const ripple = document.createElement('span');
+    // ripple.classList.add('btn-ripple');
     
     // 根据点击位置设置涟漪起点
     const rect = button.getBoundingClientRect();
@@ -128,13 +128,13 @@ function createRippleEffect(event) {
     button.appendChild(ripple);
     
     // 动画结束后移除
-    setTimeout(() => {
-        ripple.remove();
-    }, 600);
-}
+    // setTimeout(() => {
+    //     ripple.remove();
+    // }, 600);
+// }
 
 // 创建浮动气泡
-function createFloatingBubbles() {
+function createFloatingBubbles() { // This seems unique, keeping for now.
     const bubblesContainer = document.createElement('div');
     bubblesContainer.classList.add('floating-bubbles');
     
@@ -148,10 +148,10 @@ function createFloatingBubbles() {
     document.body.appendChild(bubblesContainer);
 }
 
-// 创建樱花效果
-function createSakuraEffect() {
-    const sakuraContainer = document.createElement('div');
-    sakuraContainer.classList.add('sakura-container');
+// 创建樱花效果 - Moved to script.js (createSakuraEffect)
+// function createSakuraEffect() {
+    // const sakuraContainer = document.createElement('div');
+    // sakuraContainer.classList.add('sakura-container');
     
     // 创建10个樱花
     for (let i = 0; i < 10; i++) {
@@ -174,13 +174,13 @@ function createSakuraEffect() {
         sakuraContainer.appendChild(sakura);
     }
     
-    document.body.appendChild(sakuraContainer);
-}
+    // document.body.appendChild(sakuraContainer);
+// }
 
-// 创建滚动进度指示器
-function createScrollIndicator() {
-    const scrollContainer = document.createElement('div');
-    scrollContainer.classList.add('scroll-indicator-container');
+// 创建滚动进度指示器 - Moved to script.js (updateProgressBar) and main.js (initProgressBar)
+// function createScrollIndicator() {
+    // const scrollContainer = document.createElement('div');
+    // scrollContainer.classList.add('scroll-indicator-container');
     
     const scrollBar = document.createElement('div');
     scrollBar.classList.add('scroll-indicator-bar');
@@ -193,17 +193,17 @@ function createScrollIndicator() {
         const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
         const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
         const scrolled = (winScroll / height) * 100;
-        scrollBar.style.width = scrolled + '%';
-    });
-}
+        // scrollBar.style.width = scrolled + '%';
+    // });
+// }
 
-// 初始化返回顶部按钮
-function initScrollToTopButton() {
+// 初始化返回顶部按钮 - Moved to script.js (createScrollToTopButton)
+// function initScrollToTopButton() {
     // 创建返回顶部按钮
-    const scrollTopBtn = document.createElement('button');
-    scrollTopBtn.classList.add('scroll-top-btn');
-    scrollTopBtn.innerHTML = '<i class="fas fa-arrow-up"></i>';
-    scrollTopBtn.setAttribute('aria-label', '返回顶部');
+    // const scrollTopBtn = document.createElement('button');
+    // scrollTopBtn.classList.add('scroll-top-btn');
+    // scrollTopBtn.innerHTML = '<i class="fas fa-arrow-up"></i>';
+    // scrollTopBtn.setAttribute('aria-label', '返回顶部');
     
     document.body.appendChild(scrollTopBtn);
     
@@ -227,13 +227,13 @@ function initScrollToTopButton() {
         setTimeout(() => {
             scrollTopBtn.classList.remove('clicked');
         }, 300);
-    });
-}
+    // });
+// }
 
-// 导航栏滚动行为
-function initNavbarScroll() {
-    const navbar = document.querySelector('.navbar');
-    let lastScrollTop = 0;
+// 导航栏滚动行为 - Moved to script.js (initializeScrollEffects)
+// function initNavbarScroll() {
+    // const navbar = document.querySelector('.navbar');
+    // let lastScrollTop = 0;
     
     window.addEventListener('scroll', () => {
         const scrollTop = window.scrollY;
@@ -255,13 +255,13 @@ function initNavbarScroll() {
         }
         
         lastScrollTop = scrollTop;
-    });
-}
+    // });
+// }
 
-// 移动设备检测与优化
-function detectMobile() {
-    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || 
-                       window.innerWidth <= 768;
+// 移动设备检测与优化 - Moved to script.js (initializeElements which adds .is-mobile)
+// function detectMobile() {
+    // const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || 
+                       // window.innerWidth <= 768;
     
     if (isMobile) {
         document.body.classList.add('is-mobile');
@@ -283,23 +283,23 @@ function detectMobile() {
         if (bubbles) {
             bubbles.style.display = 'none';
         }
-    }
-}
+    // }
+// }
 
 // 首篇文章设置为大卡片
-function setFeaturedArticle() {
+function setFeaturedArticle() { // This seems unique, keeping.
     const articles = document.querySelectorAll('.article-card');
     if (articles.length > 0) {
         articles[0].classList.add('featured');
     }
 }
 
-// 自定义鼠标跟随效果
-function initCustomCursor() {
+// 自定义鼠标跟随效果 - Moved to script.js (addMouseFollowEffect)
+// function initCustomCursor() {
     // 检查是否已经存在鼠标跟随元素，如果存在则不再创建
-    if (document.querySelector('.custom-cursor')) {
-        return;
-    }
+    // if (document.querySelector('.custom-cursor')) {
+        // return;
+    // }
     
     const cursor = document.createElement('div');
     cursor.classList.add('custom-cursor');
@@ -324,18 +324,18 @@ function initCustomCursor() {
     });
     
     // 在移动设备上禁用自定义鼠标
-    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-        cursor.style.display = 'none';
-    }
-}
+    // if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+        // cursor.style.display = 'none';
+    // }
+// }
 
-// 创建预加载动画
-function createPreloader() {
-    const preloader = document.querySelector('.preloader');
+// 创建预加载动画 - Preloader HTML should be static. Logic for hiding is in script.js.
+// function createPreloader() {
+    // const preloader = document.querySelector('.preloader');
     
-    if (preloader) {
-        const loader = document.createElement('div');
-        loader.classList.add('kawaii-loader');
+    // if (preloader) {
+        // const loader = document.createElement('div');
+        // loader.classList.add('kawaii-loader');
         
         // 创建可爱的加载表情
         const face = document.createElement('div');
@@ -372,24 +372,24 @@ function createPreloader() {
         loadingText.style.fontSize = '14px';
         loadingText.textContent = '正在加载可爱内容...';
         
-        preloader.appendChild(loadingText);
-    }
-}
+        // preloader.appendChild(loadingText);
+    // }
+// }
 
 // 页面加载时执行初始化函数
 window.onload = function() {
-    // 初始化自定义鼠标
-    initCustomCursor();
+    // 初始化自定义鼠标 - Moved to script.js (addMouseFollowEffect)
+    // initCustomCursor();
     
     // 设置首篇文章为大卡片
-    setFeaturedArticle();
+    setFeaturedArticle(); // This seems unique, keeping.
     
-    // 创建预加载动画
-    createPreloader();
+    // 创建预加载动画 - Preloader HTML should be static. Logic for hiding is in script.js.
+    // createPreloader();
 };
 
 // 季节性主题（根据季节更改某些UI元素）
-function seasonalTheme() {
+function seasonalTheme() { // This seems unique, keeping.
     const month = new Date().getMonth(); // 0-11
     
     // 根据季节更改樱花颜色和背景

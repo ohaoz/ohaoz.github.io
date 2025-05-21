@@ -529,6 +529,21 @@
 
     // 合并所有初始化操作于DOMContentLoaded事件
     document.addEventListener('DOMContentLoaded', () => {
+        const preloader = document.querySelector('.preloader');
+
+        if (preloader) {
+            // Ensure preloader is visible initially, in case CSS somehow hides it too early
+            preloader.style.display = 'flex'; 
+
+            window.addEventListener('load', () => {
+                preloader.classList.add('fade-out');
+                // Set display to none after the fade-out animation (0.5s)
+                setTimeout(() => {
+                    preloader.style.display = 'none';
+                }, 500); // Corresponds to 'opacity 0.5s' in animation.css
+            });
+        }
+
         initializeElements();
         // 确保尽早创建返回顶部按钮
         createScrollToTopButton();

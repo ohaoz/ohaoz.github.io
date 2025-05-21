@@ -28,7 +28,7 @@
     position: relative;
     animation: scanline 8s linear infinite;
     border-radius: 12px;
-    background: rgba(30, 58, 138, 0.8);
+    background: rgba(30, 58, 138, 0.8); /* Kept dark blue theme */
     border: 1px solid rgba(147, 197, 253, 0.3);
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
 }
@@ -37,7 +37,7 @@
     0% {
         background: linear-gradient(to bottom,
             rgba(30, 58, 138, 0) 0%,
-            rgba(147, 197, 253, 0.2) 50%,
+            rgba(147, 197, 253, 0.2) 50%, /* Slightly more visible scanline */
             rgba(30, 58, 138, 0) 100%);
         background-size: 100% 100%;
         background-position: 0 -100%;
@@ -45,90 +45,98 @@
     100% {
         background: linear-gradient(to bottom,
             rgba(30, 58, 138, 0) 0%,
-            rgba(147, 197, 253, 0.2) 50%,
+            rgba(147, 197, 253, 0.2) 50%, /* Slightly more visible scanline */
             rgba(30, 58, 138, 0) 100%);
         background-size: 100% 100%;
         background-position: 0 200%;
     }
 }
 
-.sad-face {
-    font-size: 6rem;
-    margin-bottom: 2rem;
-    color: #60A5FA;
-    animation: pulse 3s ease-in-out infinite;
-}
-
-@keyframes pulse {
-    0%, 100% {
-        opacity: 1;
-        transform: scale(1);
-    }
-    50% {
-        opacity: 0.7;
-        transform: scale(0.95);
-    }
-}
-
 .error-title {
-    font-size: 2.25rem;
+    font-size: 2.5rem; /* Slightly larger */
     margin-bottom: 1.5rem;
-    font-weight: 600;
-    color: #93C5FD;
+    font-weight: 700; /* Bolder */
+    color: #00ffea; /* Techy cyan/teal color */
+    text-shadow: 0 0 5px #00ffea, 0 0 10px #00ffea;
+    animation: text-flicker 3s infinite alternate;
 }
 
 .error-text {
-    font-size: 1.25rem;
+    font-size: 1.15rem; /* Adjusted for balance */
     line-height: 1.7;
-    margin-bottom: 2rem;
-    opacity: 0.9;
+    margin-bottom: 1.5rem; /* Adjusted margin */
+    opacity: 0.85; /* Slightly adjusted opacity */
+    color: #c0c0c0; /* Light silver for a tech feel */
+    animation: text-glow 2s infinite alternate;
+}
+
+@keyframes text-flicker {
+    0%, 18%, 22%, 25%, 53%, 57%, 100% {
+        text-shadow:
+            0 0 4px #00ffea,
+            0 0 10px #00ffea,
+            0 0 20px #00ffea,
+            0 0 40px #00c2b2,
+            0 0 80px #00c2b2;
+        color: #00ffea;
+    }
+    20%, 24%, 55% {
+        text-shadow: none;
+        color: #c0c0c0;
+    }
+}
+
+@keyframes text-glow {
+    from {
+        opacity: 0.7;
+    }
+    to {
+        opacity: 0.9;
+        text-shadow: 0 0 2px #c0c0c0;
+    }
 }
 
 .progress-container {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.25); /* Darker, more transparent */
     border-radius: 8px;
     padding: 1rem;
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
-    margin-bottom: 2rem;
-    border: 1px solid rgba(147, 197, 253, 0.2);
+    margin-bottom: 1.5rem; /* Adjusted margin */
+    border: 1px solid rgba(0, 255, 234, 0.3); /* Techy border color */
 }
 
 .progress-text {
-    font-size: 1rem;
-    color: #93C5FD;
+    font-size: 0.9rem; /* Slightly smaller */
+    color: #00ffea; /* Techy cyan/teal color */
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
-.progress-dots {
-    display: flex;
-    gap: 0.5rem;
-    justify-content: center;
+/* New Loading Bar Styles */
+.loading-bar-container {
+    width: 100%; /* Full width within progress-container */
+    height: 16px; /* Slimmer bar */
+    background-color: rgba(0,0,0,0.5); /* Darker track for the bar */
+    border-radius: 8px;
+    margin-top: 0.5rem; /* Space from text */
+    overflow: hidden;
+    border: 1px solid rgba(0, 255, 234, 0.4);
 }
 
-.dot {
-    width: 12px;
-    height: 12px;
-    background-color: #60A5FA;
-    border-radius: 50%;
-    opacity: 0.3;
-    animation: dot-pulse 1.5s infinite;
+.loading-bar-fill {
+    width: 0%;
+    height: 100%;
+    background-color: #00ffea; /* Techy cyan/teal color */
+    border-radius: 7px; /* Inner radius */
+    animation: fill-bar 3s ease-out forwards; /* Adjust timing as needed */
+    box-shadow: 0 0 8px #00ffea, 0 0 15px #00ffea;
 }
 
-.dot:nth-child(2) {
-    animation-delay: 0.2s;
-}
-
-.dot:nth-child(3) {
-    animation-delay: 0.4s;
-}
-
-.dot:nth-child(4) {
-    animation-delay: 0.6s;
-}
-
-.dot:nth-child(5) {
-    animation-delay: 0.8s;
+@keyframes fill-bar {
+    from { width: 0%; }
+    to { width: 100%; }
 }
 
 .stop-code {
@@ -136,8 +144,8 @@
     background: rgba(0, 0, 0, 0.3);
     padding: 1rem;
     border-radius: 8px;
-    margin-bottom: 2rem;
-    border-left: 4px solid #60A5FA;
+    margin-bottom: 1.5rem; /* Adjusted margin */
+    border-left: 4px solid #00ffea; /* Techy accent color */
 }
 
 .panda-meme {
@@ -173,24 +181,19 @@
     }
 
     .sad-face {
-        font-size: 4rem;
+        font-size: 3.5rem; /* Adjusted for mobile */
     }
 
     .error-title {
-        font-size: 1.8rem;
+        font-size: 1.6rem; /* Adjusted for mobile */
     }
 
     .error-text {
-        font-size: 1.2rem;
+        font-size: 1rem; /* Adjusted for mobile */
     }
 
-    .progress-dots {
-        gap: 0.5rem;
-    }
-
-    .dot {
-        width: 8px;
-        height: 8px;
+    .loading-bar-container {
+        height: 12px; /* Slimmer on mobile */
     }
 
     .sakura {
@@ -236,17 +239,6 @@
 }
 
 /* 关键帧动画定义 */
-@keyframes dot-pulse {
-    0%, 100% {
-        opacity: 0.3;
-        transform: scale(1);
-    }
-    50% {
-        opacity: 1;
-        transform: scale(1.2);
-    }
-}
-
 @keyframes float {
     0%, 100% {
         transform: translateY(0) rotate(-5deg);

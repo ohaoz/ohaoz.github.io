@@ -2,21 +2,43 @@
 
 :root {
     /* 二次元风格升级配色方案 */
-    --primary-color: #FF6B9A; /* 粉色系 */
-    --primary-dark: #E84B8A;
-    --primary-light: #FFA4C3;
-    --secondary-color: #6B9AFF; /* 蓝色系 */
-    --accent-color: #9D6BFF; /* 紫色系 */
+    /* --primary-color: #FF6B9A; */ /* Original Pink */
+    --primary-color: #FF65A0; /* 粉色系 - Slightly more vibrant pink */
+    /* --primary-dark: #E84B8A; */ /* Original Pink Dark */
+    --primary-dark: #E05590; /* Adjusted Pink Dark */
+    /* --primary-light: #FFA4C3; */ /* Original Pink Light */
+    --primary-light: #FFB0D0; /* Adjusted Pink Light */
+
+    /* --secondary-color: #6B9AFF; */ /* Original Blue */
+    --secondary-color: #6090FF; /* 蓝色系 - Slightly brighter blue */
+    /* --accent-color: #9D6BFF; */ /* Original Purple */
+    --accent-color: #A06FFF; /* 紫色系 - Slightly more vibrant purple */
+
     --accent-mint: #83E8C0; /* 新增辅助色：薄荷绿 */
     --accent-sky: #87CEFA; /* 新增辅助色：天蓝色 */
+
+    /* New Accent Colors - Option 2 */
+    --accent-magical-teal: #40E0D0; /* Bright Teal - Suggestion: Use for special icons, highlights, or call-to-action button borders */
+    --accent-magical-teal-rgb: 64, 224, 208; /* RGB for magical-teal */
+    --accent-dreamy-lavender: #D8BFD8; /* Soft Lavender - Suggestion: Use for subtle backgrounds, hover effects on delicate items, or text shadows */
+    --accent-dreamy-lavender-rgb: 216, 191, 216; /* RGB for text shadow with alpha */
+
     --background-color: #FFEEF5; /* 浅粉背景 */
     --background-gradient: linear-gradient(135deg, #FFEEF5 0%, #FFF5FA 100%); /* 新增渐变背景 */
     --text-color: #4A4A6A;
+    --text-color-rgb: 74, 74, 106; /* RGB for text-color */
     --text-light: #7A7A9A;
     --card-bg: #FFFFFF;
     --card-shadow: 0 8px 20px rgba(255, 105, 180, 0.1), 0 4px 8px rgba(255, 107, 154, 0.05);
-    --gradient-primary: linear-gradient(135deg, #FF6B9A 0%, #E84B8A 100%);
-    --gradient-secondary: linear-gradient(135deg, #6B9AFF 0%, #4B7AE8 100%);
+    --gradient-primary: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+    --gradient-secondary: linear-gradient(135deg, var(--secondary-color) 0%, #4B7AE8 100%); /* Adjusted to use new secondary */
+    
+    /* New Gradient - Option 3 */
+    /* Suggestion: Use for hero section backgrounds, special card backgrounds, or section dividers */
+    --gradient-magical: linear-gradient(135deg, var(--primary-light), var(--accent-magical-teal), var(--accent-sky));
+    --gradient-dreamy: linear-gradient(to right bottom, var(--accent-dreamy-lavender), var(--accent-sky), var(--primary-light));
+
+
     --nav-bg: rgba(255, 255, 255, 0.8); /* 更改为半透明效果 */
     --nav-blur: blur(10px); /* 毛玻璃效果模糊度 */
     --transition-slow: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -33,22 +55,42 @@
 
 /* 暗色主题 - 二次元风格 */
 [data-theme="dark"] {
-    --primary-color: #FF8EB4;
-    --primary-dark: #FF6B9A;
-    --primary-light: #FFBDD6;
-    --secondary-color: #8EB4FF;
-    --accent-color: #BD8EFF;
+    /* --primary-color: #FF8EB4; */ /* Original Dark Pink */
+    --primary-color: #FF85B8; /* Adjusted Dark Pink - Brighter */
+    /* --primary-dark: #FF6B9A; */  /* Original Dark Pink Dark */
+    --primary-dark: #FF5595; /* Adjusted Dark Pink Dark */
+    /* --primary-light: #FFBDD6; */ /* Original Dark Pink Light */
+    --primary-light: #FFC0DA; /* Adjusted Dark Pink Light */
+    
+    /* --secondary-color: #8EB4FF; */ /* Original Dark Blue */
+    --secondary-color: #80A8FF; /* Adjusted Dark Blue - Brighter */
+    /* --accent-color: #BD8EFF; */ /* Original Dark Purple */
+    --accent-color: #C08FFF; /* Adjusted Dark Purple - Brighter */
+
     --accent-mint: #6BCBA8; /* 暗色模式薄荷绿 */
     --accent-sky: #5AAADC; /* 暗色模式天蓝色 */
+
+    /* New Accent Colors - Dark Theme - Option 2 */
+    --accent-magical-teal: #38D0C0; /* Darker Teal - Suggestion: Use for special icons, highlights, or call-to-action button borders in dark mode */
+    --accent-magical-teal-rgb: 56, 208, 192; /* RGB for magical-teal in dark mode */
+    --accent-dreamy-lavender: #B090B0; /* Darker Soft Lavender - Suggestion: Use for subtle backgrounds or hover effects in dark mode */
+    --accent-dreamy-lavender-rgb: 176, 144, 176; /* RGB for text shadow with alpha - Dark mode */
+    
     --background-color: #2A2A40;
     --background-gradient: linear-gradient(135deg, #2A2A40 0%, #353555 100%); /* 暗色渐变背景 */
     --text-color: #F9FAFB;
+    --text-color-rgb: 249, 250, 251; /* RGB for text-color in dark mode */
     --text-light: #E5E7EB;
     --card-bg: rgba(58, 58, 80, 0.8); /* 半透明卡片背景 */
     --card-shadow: 0 10px 20px rgba(0, 0, 0, 0.3), 0 4px 8px rgba(0, 0, 0, 0.2);
     --nav-bg: rgba(42, 42, 64, 0.75); /* 更改为半透明效果 */
-    --gradient-primary: linear-gradient(135deg, #FF8EB4 0%, #FF6B9A 100%);
-    --gradient-secondary: linear-gradient(135deg, #8EB4FF 0%, #6B9AFF 100%);
+    --gradient-primary: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+    --gradient-secondary: linear-gradient(135deg, var(--secondary-color) 0%, #6B9AFF 100%); /* Adjusted to use new secondary */
+
+    /* New Gradient - Dark Theme - Option 3 */
+    /* Suggestion: Use for hero section backgrounds, special card backgrounds, or section dividers in dark mode */
+    --gradient-magical: linear-gradient(135deg, var(--primary-light), var(--accent-magical-teal), var(--accent-sky));
+    --gradient-dreamy: linear-gradient(to right bottom, var(--accent-dreamy-lavender), var(--accent-sky), var(--primary-light));
 }
 
 * {
@@ -293,7 +335,8 @@ body {
     border-radius: var(--border-radius-lg);
     box-shadow: var(--card-shadow);
     overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    /* transition: transform 0.3s ease, box-shadow 0.3s ease; */ /* Original transition */
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); /* Refined transition */
     position: relative;
     border: 2px solid rgba(255, 107, 154, 0.1);
     display: flex;
@@ -303,9 +346,12 @@ body {
 }
 
 .article-card:hover {
-    transform: translateY(-8px) scale(1.01);
-    box-shadow: 0 15px 30px rgba(255, 107, 154, 0.15), 0 8px 12px rgba(255, 107, 154, 0.08);
-    border-color: rgba(255, 107, 154, 0.2);
+    transform: translateY(-10px) scale(1.03); /* Slightly more pop */
+    /* box-shadow: 0 15px 30px rgba(255, 107, 154, 0.15), 0 8px 12px rgba(255, 107, 154, 0.08); */ /* Original shadow */
+    box-shadow: 0 12px 28px rgba(var(--text-color-rgb), 0.12), /* Base shadow */
+                0 0 20px rgba(var(--accent-magical-teal-rgb), 0.35), /* Thematic glow */
+                0 4px 10px rgba(var(--primary-color), 0.1); /* Subtle primary color hint */
+    border-color: rgba(var(--accent-magical-teal-rgb), 0.3); /* Border hint to match glow */
 }
 
 .article-card:hover::before {
@@ -355,13 +401,14 @@ body {
     left: 0;
     width: 100%;
     height: 40%;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.3), transparent);
+    /* background: linear-gradient(to top, rgba(0, 0, 0, 0.3), transparent); */ /* Original image overlay */
+    background: linear-gradient(to top, rgba(var(--accent-magical-teal-rgb), 0.25), transparent); /* Themed image overlay */
     opacity: 0;
     transition: opacity 0.3s ease;
 }
 
 .article-card:hover .article-card-image::after {
-    opacity: 1;
+    opacity: 0.8; /* Slightly adjusted opacity for the themed overlay */
 }
 
 .article-card h2 {
@@ -674,7 +721,8 @@ html {
     z-index: -1;
     border-radius: var(--border-radius-lg);
     padding: 1px;
-    background: var(--gradient-primary);
+    /* background: var(--gradient-primary); */ /* Original border gradient */
+    background: var(--gradient-magical); /* Thematic border gradient */
     -webkit-mask: 
         linear-gradient(#fff 0 0) content-box, 
         linear-gradient(#fff 0 0);
@@ -1063,14 +1111,16 @@ body::before {
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, 
+    /* background: linear-gradient(135deg, 
         rgba(255, 107, 154, 0.1), 
         rgba(107, 154, 255, 0.1), 
-        rgba(157, 107, 255, 0.1));
+        rgba(157, 107, 255, 0.1)); */ /* Original background for .hero::before */
+    background: var(--gradient-dreamy); /* Using new dreamy gradient for .hero::before */
+    opacity: 0.45; /* Adjusted opacity for readability */
     z-index: 0;
 }
 
-.hero::after {
+.hero::after { /* This is the radial pulse effect, keep as is or slightly adjust opacity if needed */
     content: '';
     position: absolute;
     top: -50%;
@@ -1111,11 +1161,48 @@ body::before {
     position: relative;
     z-index: 1;
     font-family: var(--font-display);
-    background: var(--gradient-primary);
+    /* background: var(--gradient-primary); */ /* Original gradient for h1 text */
+    background: var(--gradient-magical); /* Applying new magical gradient to h1 text */
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
+    text-shadow: 1px 1px 3px rgba(var(--accent-dreamy-lavender-rgb), 0.7); /* Subtle lavender shadow */
     display: inline-block;
+    position: relative; /* Needed for ::after and ::before pseudo-elements */
+    overflow: hidden; /* Recommended if ::after is for shine effect */
+}
+
+/* Shine effect for Hero Title */
+.hero h1::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -150%; /* Start further left */
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.5), /* Adjusted shine color */
+        transparent
+    );
+    animation: shine 3.5s infinite; /* Animation defined in animation.css */
+    pointer-events: none;
+}
+
+
+/* Optional Sparkle for Hero Title - applied to .hero h1 itself for simplicity */
+.hero h1::before { /* This is the new sparkle pseudo-element */
+    content: '✦'; /* Using a simple sparkle character */
+    position: absolute;
+    top: -0.2em; /* Adjust as needed */
+    left: -0.6em; /* Adjust as needed */
+    font-size: 0.6em; /* Smaller sparkle */
+    color: var(--accent-magical-teal); /* Using one of the new accents */
+    text-shadow: 0 0 5px var(--accent-magical-teal);
+    animation: twinkle 3s infinite ease-in-out; /* Animation defined in animation.css */
+    opacity: 0;
+    pointer-events: none; /* So it doesn't interfere with text selection */
 }
 
 .hero p {

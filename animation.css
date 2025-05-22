@@ -772,19 +772,27 @@ button, .nav-links a, .category-nav a {
         rgba(255, 255, 255, 0.4),
         transparent
     );
-    animation: shine 3s infinite;
+    animation: shine 3.5s infinite; /* styles.css now dictates this specific animation name and duration */
 }
 
+/* Keyframe for the shine effect on hero title - MODIFIED */
 @keyframes shine {
     0% {
-        left: -100%;
+        left: -120%; /* Start further left */
     }
-    20% {
-        left: 100%;
+    15% { /* Quicker shine */
+        left: 120%; /* End further right */
     }
-    100% {
-        left: 100%;
+    100% { /* Hold off-screen for longer */
+        left: 120%;
     }
+}
+
+/* Optional: Keyframe for sparkle effect - NEW */
+@keyframes twinkle {
+  0%, 100% { opacity: 0; transform: scale(0.5) rotate(0deg) translateY(5px); }
+  30%, 70% { opacity: 1; transform: scale(1.2) rotate(10deg) translateY(0px); }
+  50% { opacity: 0.8; transform: scale(1) rotate(-5deg) translateY(-2px); }
 }
 
 /* 返回顶部按钮动画 */

@@ -1,222 +1,26 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZYH的二次元知识库</title>
-    <meta name="description" content="ZYH的二次元风格技术博客，分享编程知识和技术见解">
-    <meta name="keywords" content="二次元,技术博客,编程,全栈开发,算法,前端,后端">
-    <meta name="author" content="ZYH">
-    <meta name="robots" content="index, follow">
-    <meta property="og:title" content="ZYH的二次元知识库">
-    <meta property="og:description" content="萌萌哒的技术分享空间">
-    <meta property="og:type" content="website">
-    <meta name="theme-color" content="#FF6B9A">
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="animation.css">
-    <!-- Weather Widget CSS -->
-    <link rel="stylesheet" href="weather-widget.css">
-    <!-- Font Awesome for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <script src="script.js" defer></script>
-    <!-- UI Enhancement Script -->
-    <script src="ui-enhancements.js" defer></script>
-    <!-- Weather Widget Script -->
-    <script src="weather-widget.js" defer></script>
-</head>
+  <meta charset="UTF-8">
+  <link rel="icon" href="/logo.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Temp Email</title>
+  <meta name="description" content="Temp Email">
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#000">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#ffffff">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Temp Email">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="icon" href="/logo.png" sizes="any">
+  <link rel="apple-touch-icon" href="/logo.png">
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"></script>
+  <script type="module" crossorigin src="/assets/index-NuIhbr9k.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-DhhOpJL0.css">
+<link rel="manifest" href="/manifest.webmanifest"><script id="vite-plugin-pwa:register-sw" src="/registerSW.js"></script></head>
+
 <body>
-    <div class="preloader">
-        <div class="bsod-container">
-            <h1 class="error-title">SYSTEM ONLINE</h1>
-            <p class="error-text">Booting up KawaiiOS v2.5... Interface modules loading.</p>
-            <div class="progress-container">
-                <div class="progress-text">Compiling J-Rock shaders...</div>
-                <div class="loading-bar-container">
-                    <div class="loading-bar-fill"></div>
-                </div>
-            </div>
-            <p class="error-text">Stand by for optimal cuteness overload!</p>
-        </div>
-    </div>
-    
-    <!-- 天气小部件容器 -->
-    <div class="weather-widget-container"></div>
-    
-    <!-- 天气切换按钮 -->
-    <button class="weather-toggle-btn" aria-label="显示/隐藏天气">
-        <i class="fas fa-cloud-sun"></i>
-    </button>
-    
-    <nav class="navbar">
-        <div class="nav-content" data-component-name="<div />">
-            <div class="logo">
-                <a href="/">✨ Kawaii Blog</a>
-            </div>
-            <div class="nav-toggle-container">
-                <button class="theme-toggle" aria-label="切换主题模式">
-                    <i class="fas fa-moon"></i>
-                    <span class="theme-text">暗色模式</span>
-                </button>
-            </div>
-            <div class="search-container">
-                <div class="magic-search-box">
-                    <input type="text" placeholder="搜索内容..." aria-label="搜索">
-                    <button type="button" aria-label="搜索按钮">
-                        <i class="fas fa-search"></i>
-                    </button>
-                </div>
-            </div>
-            <div class="nav-links">
-                <a href="/" class="ripple" title="首页"><i class="fas fa-home"></i> 首页</a>
-                <a href="/articles" class="ripple" title="文章"><i class="fas fa-book"></i> 文章</a>
-                <a href="/projects" class="ripple" title="项目"><i class="fas fa-project-diagram"></i> 项目</a>
-                <a href="/about" class="ripple" title="关于我"><i class="fas fa-user"></i> 关于我</a>
-            </div>
-        </div>
-    </nav>
-
-    <div class="main-content">
-        <section class="hero animate-on-scroll">
-            <h1>✨ 欢迎来到我的二次元技术空间 ✨</h1>
-            <p>这里是ZYH的个人技术博客，用可爱的方式记录学习历程与技术见解</p>
-        </section>
-        
-        <nav class="category-nav">
-            <a href="/category/frontend" title="前端开发"><i class="fas fa-code"></i> 前端开发</a>
-            <a href="/category/backend" title="后端开发"><i class="fas fa-server"></i> 后端开发</a>
-            <a href="/category/algorithm" title="算法"><i class="fas fa-brain"></i> 算法</a>
-            <a href="/category/system" title="系统设计"><i class="fas fa-network-wired"></i> 系统设计</a>
-            <a href="/category/ai" title="人工智能"><i class="fas fa-robot"></i> 人工智能</a>
-            <a href="/category/tools" title="开发工具"><i class="fas fa-tools"></i> 开发工具</a>
-        </nav>
-
-        <h2 class="section-title animate-on-scroll">✨ 最新文章</h2>
-        
-        <div class="article-list">
-            <article class="article-card animate-on-scroll">
-                <div class="article-card-image">
-                    <img src="https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=500&auto=format&fit=crop&q=60" alt="算法复杂度" loading="lazy">
-                </div>
-                <h2>深入理解算法复杂度</h2>
-                <p>探讨时间复杂度和空间复杂度的概念，以及它们在实际编程中的应用。本文将通过实例深入分析不同算法的性能特点...</p>
-                <div class="article-meta">
-                    <span><i class="far fa-clock"></i> 2025-01-18</span>
-                    <span><i class="far fa-comment"></i> 8 评论</span>
-                </div>
-            </article>
-
-            <article class="article-card animate-on-scroll">
-                <div class="article-card-image">
-                    <img src="https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=500&auto=format&fit=crop&q=60" alt="前端框架对比" loading="lazy">
-                </div>
-                <h2>2025年前端框架对比</h2>
-                <p>React、Vue、Angular、Svelte等主流前端框架的最新特性和性能对比。哪一个框架最适合你的项目？本文将给你答案...</p>
-                <div class="article-meta">
-                    <span><i class="far fa-clock"></i> 2025-01-15</span>
-                    <span><i class="far fa-comment"></i> 12 评论</span>
-                </div>
-            </article>
-
-            <article class="article-card animate-on-scroll">
-                <div class="article-card-image">
-                    <img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=500&auto=format&fit=crop&q=60" alt="云原生架构" loading="lazy">
-                </div>
-                <h2>云原生架构实践指南</h2>
-                <p>从微服务到Kubernetes，探索云原生架构的核心概念和最佳实践。如何设计可扩展、高可用的现代应用架构...</p>
-                <div class="article-meta">
-                    <span><i class="far fa-clock"></i> 2025-01-10</span>
-                    <span><i class="far fa-comment"></i> 5 评论</span>
-                </div>
-            </article>
-        </div>
-
-        <h2 class="section-title animate-on-scroll">✨ 热门主题</h2>
-        
-        <div class="article-list">
-            <article class="article-card animate-on-scroll">
-                <div class="article-card-image">
-                    <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=500&auto=format&fit=crop&q=60" alt="机器学习" loading="lazy">
-                </div>
-                <h2>机器学习入门指南</h2>
-                <p>从零开始学习机器学习的核心概念、算法和实践应用。适合初学者的完整学习路径和资源推荐...</p>
-                <div class="article-meta">
-                    <span><i class="far fa-clock"></i> 2024-12-28</span>
-                    <span><i class="far fa-comment"></i> 20 评论</span>
-                </div>
-            </article>
-
-            <article class="article-card animate-on-scroll">
-                <div class="article-card-image">
-                    <img src="https://images.unsplash.com/photo-1607799279861-4dd421887fb3?w=500&auto=format&fit=crop&q=60" alt="TypeScript" loading="lazy">
-                </div>
-                <h2>TypeScript高级技巧</h2>
-                <p>掌握TypeScript的类型系统、泛型、装饰器等高级特性，提升代码质量和开发效率的实用技巧...</p>
-                <div class="article-meta">
-                    <span><i class="far fa-clock"></i> 2024-12-20</span>
-                    <span><i class="far fa-comment"></i> 15 评论</span>
-                </div>
-            </article>
-
-            <article class="article-card animate-on-scroll">
-                <div class="article-card-image">
-                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=500&auto=format&fit=crop&q=60" alt="系统设计" loading="lazy">
-                </div>
-                <h2>系统设计面试指南</h2>
-                <p>如何准备和应对系统设计面试，包括常见问题、解题思路和实际案例分析。帮助你在技术面试中脱颖而出...</p>
-                <div class="article-meta">
-                    <span><i class="far fa-clock"></i> 2024-12-15</span>
-                    <span><i class="far fa-comment"></i> 18 评论</span>
-                </div>
-            </article>
-        </div>
-
-        <section class="cta-section animate-on-scroll">
-            <h2>✨ 订阅我的博客更新 ✨</h2>
-            <p>第一时间获取最新的技术文章和教程，不错过任何学习机会！</p>
-            <form class="subscribe-form">
-                <input type="email" placeholder="输入您的邮箱地址" required>
-                <button type="submit">订阅</button>
-            </form>
-        </section>
-    </div>
-
-    <footer>
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3>关于博客</h3>
-                <p>这是一个分享技术知识、编程经验和学习心得的个人博客。希望能帮助到每一位热爱技术的朋友。</p>
-                <div class="social-links">
-                    <a href="#" title="GitHub Profile"><i class="fab fa-github"></i></a>
-                    <a href="#" title="Twitter Profile"><i class="fab fa-twitter"></i></a>
-                    <a href="#" title="LinkedIn Profile"><i class="fab fa-linkedin"></i></a>
-                    <a href="#" title="WeChat Contact"><i class="fab fa-weixin"></i></a>
-                </div>
-            </div>
-            
-            <div class="footer-section">
-                <h3>快速链接</h3>
-                <ul>
-                    <li><a href="#" title="首页">首页</a></li>
-                    <li><a href="#" title="文章归档">文章归档</a></li>
-                    <li><a href="#" title="关于我">关于我</a></li>
-                    <li><a href="#" title="联系方式">联系方式</a></li>
-                </ul>
-            </div>
-            
-            <div class="footer-section">
-                <h3>热门分类</h3>
-                <ul>
-                    <li><a href="#" title="前端开发">前端开发</a></li>
-                    <li><a href="#" title="后端技术">后端技术</a></li>
-                    <li><a href="#" title="算法学习">算法学习</a></li>
-                    <li><a href="#" title="系统设计">系统设计</a></li>
-                </ul>
-            </div>
-        </div>
-        
-        <div class="footer-bottom">
-            <p>&copy; 2025 ZYH的二次元知识库 | 用❤️制作</p>
-        </div>
-    </footer>
+  <div id="app"></div>
 </body>
+
 </html>
